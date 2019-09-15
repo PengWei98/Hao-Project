@@ -1,10 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--<meta charset="UTF-8">-->
-<!--<title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
 {% extends 'base.html' %}
 {% block body %}
 
@@ -26,6 +19,33 @@
     </div>
 </section>
 
+
+{% if show %}
+<section class="content-section bg-primary text-white text-center" id="table">
+    <div class="container">
+        <div class="content-section-heading">
+            <h3 class="text-secondary mb-0">Maybe</h3>
+            <h2 class="mb-5">This is your table?</h2>
+        </div>
+
+        <table class="table">
+
+            <tbody>
+
+            {% for indexs in table.index %}
+            <tr class="table-success">
+                <!--<th scope="row">Primary</th>-->
+                {% for item in table.loc[indexs].values[0:-1] %}
+                <td>{{item}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</section>
+{% endif %}
+
 {% endblock %}
-<!--</body>-->
-<!--</html>-->

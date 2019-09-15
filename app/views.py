@@ -3,7 +3,7 @@
 # @Author  : Wei Peng
 # @FileName: views.py
 
-from flask import request, render_template
+from flask import request, render_template, flash
 from werkzeug.utils import secure_filename
 import os
 from app import app
@@ -26,12 +26,15 @@ def upload_file():
     png_path = upload_path.split(".")[0] + "-" + id + ".png"
     # open(png_path, "w")
     table = tableuni.with_table(pdf_path, "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/test.csv", "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/table.png")
-    print(type(table))
-    print(table)
-    return render_template('index.html')
+    # print(type(table))
+    # print(table)
+    # print(table.index.values[0])
+    flash('Your file has been uploaded!', 'success')
+    return render_template('index.html', show=True, table=table)
 
 
 @app.route('/', methods=['GET', "POST"])
 def index():
     print("hello")
-    return render_template('index.html')
+    flash('Hello, test flash', 'success')
+    return render_template('index.html', show=False, table=None)
