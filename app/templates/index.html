@@ -1,6 +1,41 @@
 {% extends 'base.html' %}
 {% block body %}
 
+<script type="text/javascript">
+
+    function upload_file() {
+        var formData =
+            new FormData($("#upload_form")[0]);
+        $.ajax({
+                url: "/upload",
+                type: "POST",
+                data: formData,
+                async: true,
+                cashe: false,
+                contentType: false,
+                processData: false,
+                success: function (table_data) {
+                    $("#myModal").modal("show");
+                    for (i in table_data.table) {
+                        var tr;
+                        tr = "<tr class=\"table-dark\">"
+                        for (j in table_data.table[i]) {
+                            tr = tr + '<td>' + table_data.table[i][j] + '</td>'
+                        }
+                        tr = tr + "</tr>"
+                        $("#pdf_table").append(tr)
+                    }
+
+                },
+                error: function (table_data) {
+                    alert("Fail to Upload!")
+                }
+            }
+        )
+    }
+
+</script>
+
 <section class="content-section bg-light" id="about">
     <div class="container text-center">
         <div class="row">
@@ -8,11 +43,12 @@
                 <h2>Use test data in our paper</h2>
                 <p class="lead mb-5">System will show the whole dataset!</p>
                 <!--<a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">What We Offer</a>-->
-                <form action="upload" enctype='multipart/form-data' method='POST'>
+                <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form">
                     <input type="file" name="file">
                     <br/>
                     <br/>
-                    <input type="submit" class="btn btn-dark btn-xl js-scroll-trigger" value="upload your own PDF">
+                    <input type="button" class="btn btn-dark btn-xl js-scroll-trigger" value="upload your own PDF"
+                           id="upload_pdf" onclick="upload_file()">
                 </form>
             </div>
         </div>
@@ -20,32 +56,51 @@
 </section>
 
 
-{% if show %}
-<section class="content-section bg-primary text-white text-center" id="table">
-    <div class="container">
-        <div class="content-section-heading">
-            <h3 class="text-secondary mb-0">Maybe</h3>
-            <h2 class="mb-5">This is your table?</h2>
+<div class="modal" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Is this your table?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="center table table-hover" id="pdf_table">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
         </div>
-
-        <table class="table">
-
-            <tbody>
-
-            {% for indexs in table.index %}
-            <tr class="table-success">
-                <!--<th scope="row">Primary</th>-->
-                {% for item in table.loc[indexs].values[0:-1] %}
-                <td>{{item}}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
-
     </div>
-</section>
-{% endif %}
+</div>
+
+<!--{% if show %}-->
+<!--<section class="content-section bg-primary text-white text-center" id="table">-->
+    <!--<div class="container">-->
+        <!--<div class="content-section-heading">-->
+            <!--<h3 class="text-secondary mb-0">Maybe</h3>-->
+            <!--<h2 class="mb-5">This is your table?</h2>-->
+        <!--</div>-->
+
+        <!--<table class="table">-->
+            <!--<tbody>-->
+            <!--{% for indexs in table.index %}-->
+            <!--<tr class="table-success">-->
+                <!--&lt;!&ndash;<th scope="row">Primary</th>&ndash;&gt;-->
+                <!--{% for item in table.loc[indexs].values[0:-1] %}-->
+                <!--<td>{{item}}</td>-->
+                <!--{% endfor %}-->
+            <!--</tr>-->
+            <!--{% endfor %}-->
+            <!--</tbody>-->
+        <!--</table>-->
+
+    <!--</div>-->
+<!--</section>-->
+<!--{% endif %}-->
 
 {% endblock %}
