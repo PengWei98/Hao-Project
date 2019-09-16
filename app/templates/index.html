@@ -18,13 +18,21 @@
                     $("#myModal").modal("show");
                     for (i in table_data.table) {
                         var tr;
-                        tr = "<tr class=\"table-dark\">"
+                        tr = "<tr class=\"table-light\">"
                         for (j in table_data.table[i]) {
                             tr = tr + '<td>' + table_data.table[i][j] + '</td>'
                         }
                         tr = tr + "</tr>"
                         $("#pdf_table").append(tr)
                     }
+                    var parent = document.getElementById("pdf_table");
+                    var div = document.createElement("div");
+
+                    div.setAttribute("id", "table_id");
+                    div.setAttribute("hidden", "")
+
+                    div.innerHTML = table_data.id;
+                    parent.appendChild(div);
 
                 },
                 error: function (table_data) {
@@ -32,6 +40,17 @@
                 }
             }
         )
+    }
+
+    function correct_pdf_table() {
+        alert("Thank you for your contribution!")
+        var id = document.getElementById("table_id").innerText;
+        window.location.href = "/db_table?id=" + id;
+    }
+
+    function incorrect_pdf_table() {
+        alert("Sorry! We will do better!");
+        window.location.href = "/";
     }
 
 </script>
@@ -42,7 +61,6 @@
             <div class="col-lg-10 mx-auto">
                 <h2>Use test data in our paper</h2>
                 <p class="lead mb-5">System will show the whole dataset!</p>
-                <!--<a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">What We Offer</a>-->
                 <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form">
                     <input type="file" name="file">
                     <br/>
@@ -56,9 +74,9 @@
 </section>
 
 
-<div class="modal" id="myModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal inmodal fade" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content animated fadeIn">
             <div class="modal-header">
                 <h3 class="modal-title">Is this your table?</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -71,36 +89,40 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="correct_pdf_table()">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="incorrect_pdf_table()">
+                    No
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!--{% if show %}-->
-<!--<section class="content-section bg-primary text-white text-center" id="table">-->
-    <!--<div class="container">-->
-        <!--<div class="content-section-heading">-->
-            <!--<h3 class="text-secondary mb-0">Maybe</h3>-->
-            <!--<h2 class="mb-5">This is your table?</h2>-->
-        <!--</div>-->
 
-        <!--<table class="table">-->
-            <!--<tbody>-->
-            <!--{% for indexs in table.index %}-->
-            <!--<tr class="table-success">-->
-                <!--&lt;!&ndash;<th scope="row">Primary</th>&ndash;&gt;-->
-                <!--{% for item in table.loc[indexs].values[0:-1] %}-->
-                <!--<td>{{item}}</td>-->
-                <!--{% endfor %}-->
-            <!--</tr>-->
-            <!--{% endfor %}-->
-            <!--</tbody>-->
-        <!--</table>-->
+{% if show %}
+<section class="content-section bg-primary text-white text-center" id="table">
+    <div class="container">
+        <div class="content-section-heading">
+            <h3 class="text-secondary mb-0">Maybe</h3>
+            <h2 class="mb-5">This is your table?</h2>
+        </div>
 
-    <!--</div>-->
-<!--</section>-->
-<!--{% endif %}-->
+        <table class="table">
+            <tbody>
+            {% for indexs in db_table.index %}
+            <tr class="table-light">
+                <!--<th scope="row">Primary</th>-->
+                {% for item in db_table.loc[indexs].values %}
+                <td>{{item}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</section>
+{% endif %}
 
 {% endblock %}
