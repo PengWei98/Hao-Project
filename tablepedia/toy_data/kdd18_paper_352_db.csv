@@ -1,0 +1,73 @@
+FileName,Dataset,Model,Metric,Value
+kdd18_paper_352.csv,facebook ,line-1,,0.6301
+kdd18_paper_352.csv,arxiv ,line-1,,0.5413
+kdd18_paper_352.csv,ppi ,line-1,,0.6353
+kdd18_paper_352.csv,facebook ,line-2,,0.8063
+kdd18_paper_352.csv,arxiv ,line-2,,0.6201
+kdd18_paper_352.csv,ppi ,line-2,,0.8635
+kdd18_paper_352.csv,facebook ,sdne,,0.8244
+kdd18_paper_352.csv,arxiv ,sdne,,0.7235
+kdd18_paper_352.csv,ppi ,sdne,,0.8499
+kdd18_paper_352.csv,facebook(a),deepwalk,,0.7183
+kdd18_paper_352.csv,arxiv(a),deepwalk,,0.9792
+kdd18_paper_352.csv,ppi(a),deepwalk,,0.7288
+kdd18_paper_352.csv,facebook ,node2vec,,0.7618
+kdd18_paper_352.csv,arxiv ,node2vec,,0.9899
+kdd18_paper_352.csv,ppi ,node2vec,,0.8719
+kdd18_paper_352.csv,facebook ,rane,,0.7086
+kdd18_paper_352.csv,arxiv ,rane,,0.9937
+kdd18_paper_352.csv,ppi ,rane,,0.7316
+kdd18_paper_352.csv,facebook ,line-1,,0.7383
+kdd18_paper_352.csv,arxiv ,line-1,,0.5169
+kdd18_paper_352.csv,ppi ,line-1,,0.5922
+kdd18_paper_352.csv,facebook ,line-2,,0.7822
+kdd18_paper_352.csv,arxiv ,line-2,,0.5136
+kdd18_paper_352.csv,ppi ,line-2,,0.8228
+kdd18_paper_352.csv,facebook ,sdne,,0.9497
+kdd18_paper_352.csv,arxiv ,sdne,,0.8306
+kdd18_paper_352.csv,ppi ,sdne,,0.7764
+kdd18_paper_352.csv,facebook(b),deepwalk,,0.9403
+kdd18_paper_352.csv,arxiv(b),deepwalk,,0.8851
+kdd18_paper_352.csv,ppi(b),deepwalk,,0.7195
+kdd18_paper_352.csv,facebook ,node2vec,,0.9603
+kdd18_paper_352.csv,arxiv ,node2vec,,0.9805
+kdd18_paper_352.csv,ppi ,node2vec,,0.7277
+kdd18_paper_352.csv,facebook ,rane,,0.9468
+kdd18_paper_352.csv,arxiv ,rane,,0.9848
+kdd18_paper_352.csv,ppi ,rane,,0.7005
+kdd18_paper_352.csv,facebook ,line-1,,0.7325
+kdd18_paper_352.csv,arxiv ,line-1,,0.5493
+kdd18_paper_352.csv,ppi ,line-1,,0.6277
+kdd18_paper_352.csv,facebook ,line-2,,0.7496
+kdd18_paper_352.csv,arxiv ,line-2,,0.5301
+kdd18_paper_352.csv,ppi ,line-2,,0.7883
+kdd18_paper_352.csv,facebook ,sdne,,0.9902
+kdd18_paper_352.csv,arxiv ,sdne,,0.7265
+kdd18_paper_352.csv,ppi ,sdne,,0.7663
+kdd18_paper_352.csv,facebook(c),deepwalk,,0.9884
+kdd18_paper_352.csv,arxiv(c),deepwalk,,0.8472
+kdd18_paper_352.csv,ppi(c),deepwalk,,0.9016
+kdd18_paper_352.csv,facebook ,node2vec,,0.9343
+kdd18_paper_352.csv,arxiv ,node2vec,,0.9079
+kdd18_paper_352.csv,ppi ,node2vec,,0.8449
+kdd18_paper_352.csv,facebook ,rane,,0.9882
+kdd18_paper_352.csv,arxiv ,rane,,0.9559
+kdd18_paper_352.csv,ppi ,rane,,0.9030
+kdd18_paper_352.csv,facebook ,line-1,,0.7369
+kdd18_paper_352.csv,arxiv ,line-1,,0.5372
+kdd18_paper_352.csv,ppi ,line-1,,0.6203
+kdd18_paper_352.csv,facebook ,line-2,,0.7647
+kdd18_paper_352.csv,arxiv ,line-2,,0.5269
+kdd18_paper_352.csv,ppi ,line-2,,0.7977
+kdd18_paper_352.csv,facebook ,sdne,,0.9871
+kdd18_paper_352.csv,arxiv ,sdne,,0.5924
+kdd18_paper_352.csv,ppi ,sdne,,0.7710
+kdd18_paper_352.csv,facebook(d),deepwalk,,0.9893
+kdd18_paper_352.csv,arxiv(d),deepwalk,,0.8314
+kdd18_paper_352.csv,ppi(d),deepwalk,,0.9024
+kdd18_paper_352.csv,facebook ,node2vec,,0.9364
+kdd18_paper_352.csv,arxiv ,node2vec,,0.8561
+kdd18_paper_352.csv,ppi ,node2vec,,0.8469
+kdd18_paper_352.csv,facebook ,rane,,0.9902
+kdd18_paper_352.csv,arxiv ,rane,,0.9412
+kdd18_paper_352.csv,ppi ,rane,,0.9038
