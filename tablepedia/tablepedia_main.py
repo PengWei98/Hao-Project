@@ -12,7 +12,6 @@ from convert_pdf_to_csv import *
 # Input 1.1: pdf path should be set by user (download from user upload)
 # Input 1.2: pdf table page should be set by user (download from user input)
 pdf_path = os.path.join(CUR_DIR, 'toy_data', 'kdd18_paper_352.pdf')
-page = 6
 
 # Input 2: csv path should be set by ourselves (all should be kept in disk)
 # Input 3: png path should be set by ourselves (could be deleted after operation)
@@ -24,7 +23,12 @@ db_path = os.path.join(CUR_DIR, 'toy_data', 'kdd18_paper_352_db.csv')
 fileName = os.path.basename(pdf_path)
 
 # Step 1: Input a pdf and page, output csv & png
+<<<<<<< HEAD:tableuni/tablepedia/tablepedia_main.py
 df = with_table(pdf_path, csv_path, page, png_path)
+=======
+df = with_table(pdf_path, csv_path, png_path)
+print(df)
+>>>>>>> 83eec2413b15c5c54f98e3349c0129ff0b978af4:tablepedia/tablepedia_main.py
 
 # Evaluation 1: Quality of extracted table
 print(df)

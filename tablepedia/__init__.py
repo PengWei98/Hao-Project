@@ -87,12 +87,12 @@ def cleanRows(df):
     dropIndex = []
     for row in range(df.shape[0]):
         nans = [str(df.iloc[row, col]) != 'nan' for col in range(df.shape[1])]
-        if Counter(nans)[True] <= 2 : dropIndex.append(row)
+        if Counter(nans)[True] <= 2: dropIndex.append(row)
     return dropIndex
 
 
 def longColumns(df):
-    dropIndex= []
+    dropIndex = []
     for col in range(df.shape[1]):
         lens = [len(str(df.iloc[row, col])) > 20 for row in range(df.shape[0])
                 if str(df.iloc[row, col]) != 'nan']
@@ -101,7 +101,7 @@ def longColumns(df):
 
 
 def longRows(df):
-    dropIndex= []
+    dropIndex = []
     for row in range(df.shape[0]):
         lens = [len(str(df.iloc[row, col])) > 20 for col in range(df.shape[1])
                 if str(df.iloc[row, col]) != 'nan']
@@ -125,11 +125,11 @@ def firstCell(df):
         if item[0] <= 2 and item[1] <= 2:
             firstRow, firstCol = item
             break
-    
+
     return firstRow, firstCol
 
 
-def with_table(path, out, page, png_path):
+def with_table(path, out, png_path):
     tabula.convert_into(path, out, output_format="csv", pages='6')
     # return tabula.read_pdf(pdf_path, header=-1, pages=page)
     df = pd.read_csv(out, encoding='utf-8', header=-1)
@@ -143,7 +143,7 @@ def with_table(path, out, page, png_path):
     render_mpl_table(df, header=(row, column), col_width=1.8)
     plt.savefig(png_path)
     # plt.show()
-    
+
     return df
 
 
@@ -154,9 +154,3 @@ def move_nans(df):
                 df.iloc[i, j] = ' '
     print(str(df.iloc[3, 0]))
     return df
-
-
-
-
-
-
