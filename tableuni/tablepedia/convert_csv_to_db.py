@@ -10,7 +10,9 @@ import pickle
 from pandas import DataFrame
 from collections import Counter
 from collections import defaultdict
+
 from constants.hyperParameter import *
+from convert_pdf_to_csv import firstCell
 
 g = open(os.path.join(CUR_DIR, 'groundtruth.pkl'), 'rb')
 CONCEPT_TRUTH_DICT = pickle.load(g)
@@ -23,16 +25,16 @@ def is_number(tableCell):
     return nums and (not letters)
 
 
-def firstCell(df):
-    nums = [(i, j) for i in range(df.shape[0]) for j in range(df.shape[1]) if is_number(df.iloc[i, j])]
-    sortedNums = sorted(nums, key=lambda x: x[0] + x[1])
-    firstRow, firstCol = -1, -1
-    for item in sortedNums:
-        if item[0] <= 2 and item[1] <= 2:
-            firstRow, firstCol = item
-            break
+# def firstCell(df):
+#     nums = [(i, j) for i in range(df.shape[0]) for j in range(df.shape[1]) if is_number(df.iloc[i, j])]
+#     sortedNums = sorted(nums, key=lambda x: x[0] + x[1])
+#     firstRow, firstCol = -1, -1
+#     for item in sortedNums:
+#         if item[0] <= 2 and item[1] <= 2:
+#             firstRow, firstCol = item
+#             break
     
-    return firstRow, firstCol
+#     return firstRow, firstCol
 
 
 def get_set_type(iterable):
@@ -129,3 +131,15 @@ def get_db_list(fileName, df, firstRow, firstCol, singleDict):
             # print(cellDict)
     return db_list
 
+
+
+def with_db(csv_path, db_path):
+    df = pd.read_csv(csv_path, encoding='utf-8', header=-1)
+    fileName = os.path.basename(csv_path)
+    df = lowercase_df(df)
+    firstRow, firstCol = firstCell(df)
+    singleDict = get_single_dict(df, firstRow, firstCol)
+    db_list = get_db_list(fileName, df, firstRow, firstCol, singleDict)
+    header = ['FileName', 'Dataset', 'Model', 'Metric', 'Value']
+    DataFrame(db_list).to_csv(db_path, encoding='utf-8', index=False, header=header)
+    return DataFrame(db_list)
