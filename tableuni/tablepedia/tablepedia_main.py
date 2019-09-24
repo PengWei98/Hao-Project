@@ -1,6 +1,12 @@
+import sys
+import os
+
+CUR_DIR = os.path.dirname((os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(CUR_DIR)
+sys.path.append(BASE_DIR)
+
 from convert_csv_to_db import *
 from convert_pdf_to_csv import *
-
 
 # Input 1.1: pdf path should be set by user (download from user upload)
 # Input 1.2: pdf table page should be set by user (download from user input)
