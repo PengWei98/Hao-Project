@@ -18,7 +18,7 @@ CONCEPT_TRUTH_DICT = pickle.load(g)
 def is_number(tableCell):
     stringCell = str(tableCell)
     nums = any(i for i in stringCell if 48 <= ord(i) <= 57)
-    letters = any(i for i in stringCell
+    letters = any(i for i in stringCell)
     # print(nums, letters)
     return nums and (not letters)
 
@@ -48,7 +48,7 @@ def lowercase_df(df):
     return df
 
 
-def get_cell_list(df, firstRow, firstCol, i, j):
+def get_cell_list(df, firstRow, firstCol, i, j, singleDict):
     cellDict = defaultdict(str)
     for m in range(firstRow):
         cellDict[singleDict[df.iloc[m, j]]] += df.iloc[m, j]
@@ -120,11 +120,11 @@ def get_single_dict(df, firstRow, firstCol):
     return singleDict
 
 
-def get_db_list(df, firstRow, firstCol):
+def get_db_list(fileName, df, firstRow, firstCol, singleDict):
     db_list = []
     for i in range(firstRow, df.shape[0]):
         for j in range(firstCol, df.shape[1]):
-            cellDict = get_cell_list(df, firstRow, firstCol, i, j)
+            cellDict = get_cell_list(df, firstRow, firstCol, i, j, singleDict)
             db_list.append([fileName, cellDict[1], cellDict[2], cellDict[3], df.iloc[i, j]])
             # print(cellDict)
     return db_list

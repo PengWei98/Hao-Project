@@ -27,7 +27,9 @@ df = pd.read_csv(csv_path, encoding='utf-8', header=-1)
 df = lowercase_df(df)
 firstRow, firstCol = firstCell(df)
 singleDict = get_single_dict(df, firstRow, firstCol)
-db_list = get_db_list(df, firstRow, firstCol)
+db_list = get_db_list(fileName, df, firstRow, firstCol, singleDict)
 header = ['FileName', 'Dataset', 'Model', 'Metric', 'Value']
 
 DataFrame(db_list).to_csv(out_path, encoding='utf-8', index=False, header=header)
+
+print(DataFrame(db_list))
