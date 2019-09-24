@@ -7,7 +7,7 @@ from flask import request, render_template, flash, jsonify
 from werkzeug.utils import secure_filename
 import os
 from app import app
-import tableuni
+import tablepedia
 import uuid
 import pandas as pd
 from app import db
@@ -25,11 +25,11 @@ def upload_file():
     pdf_path = upload_path.split(".")[0] + "-" + id + ".pdf"  # the unique name of the file
     f.save(pdf_path)
     csv_path = upload_path.split(".")[0] + "-" + id + ".csv"
-    # open(csv_path, "w")
+    open(csv_path, "w")
     png_path = upload_path.split(".")[0] + "-" + id + ".png"
-    # open(png_path, "w")
-    table = tableuni.with_table(pdf_path, "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/test.csv",
-                                "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/table.png")
+    open(png_path, "w")
+    table = tablepedia.with_table(pdf_path, csv_path,
+                                png_path)
     # print(type(table))
     # print(table)
     print(table)
@@ -54,7 +54,7 @@ def upload_file():
 def get_db_table():
     id = request.args.get("id")
     csv_path = id + ".csv"
-    table = pd.read_csv("/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/test.csv", encoding='utf-8',
+    table = pd.read_csv(csv_path, encoding='utf-8',
                         header=-1)
     db_table = tableuni.with_db(table, "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/db.txt")
     for row_id in db_table.index:
