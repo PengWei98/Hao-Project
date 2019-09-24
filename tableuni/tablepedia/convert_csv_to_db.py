@@ -18,7 +18,7 @@ CONCEPT_TRUTH_DICT = pickle.load(g)
 def is_number(tableCell):
     stringCell = str(tableCell)
     nums = any(i for i in stringCell if 48 <= ord(i) <= 57)
-    letters = any(i for i in stringCell
+    letters = any(i for i in stringCell)
     # print(nums, letters)
     return nums and (not letters)
 
