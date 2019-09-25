@@ -129,8 +129,8 @@ def firstCell(df):
     return firstRow, firstCol
 
 
-def with_table(path, out, png_path):
-    tabula.convert_into(path, out, output_format="csv", pages='6')
+def with_table(path, out, png_path, page='all'):
+    tabula.convert_into(path, out, output_format="csv", pages=page)
     # return tabula.read_pdf(pdf_path, header=-1, pages=page)
     df = pd.read_csv(out, encoding='utf-8', header=-1)
     df = df.drop(cleanRows(df), axis=0)
