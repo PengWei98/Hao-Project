@@ -12,7 +12,7 @@ from collections import Counter
 from collections import defaultdict
 
 from constants.hyperParameter import *
-from convert_pdf_to_csv import firstCell
+from tablepedia.convert_pdf_to_csv import firstCell
 
 g = open(os.path.join(CUR_DIR, 'groundtruth.pkl'), 'rb')
 CONCEPT_TRUTH_DICT = pickle.load(g)

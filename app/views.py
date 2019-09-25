@@ -7,11 +7,12 @@ from flask import request, render_template, flash, jsonify
 from werkzeug.utils import secure_filename
 import os
 from app import app
-import tablepedia
 import uuid
 import pandas as pd
 from app import db
 from app.models import *
+from tablepedia import convert_csv_to_db
+from tablepedia import convert_pdf_to_csv
 
 
 @app.route('/upload', methods=['POST'])
@@ -28,7 +29,7 @@ def upload_file():
     open(csv_path, "w")
     png_path = upload_path.split(".")[0] + "-" + id + ".png"
     open(png_path, "w")
-    table = tablepedia.with_table(pdf_path, csv_path,
+    table = convert_pdf_to_csv.with_table(pdf_path, csv_path,
                                 png_path)
     # print(type(table))
     # print(table)
@@ -44,7 +45,6 @@ def upload_file():
 
         print(row)
         table_json["table"].append(row)
-    # return render_template('index.html', show=True, table=table)
     print(table_json)
 
     return jsonify(table_json)
@@ -56,9 +56,11 @@ def get_db_table():
     csv_path = id + ".csv"
     table = pd.read_csv(csv_path, encoding='utf-8',
                         header=-1)
-    db_table = tableuni.with_db(table, "/Users/pengwei/PycharmProjects/Hao-Project/app/static/uploads/db.txt")
+    db_table = convert_csv_to_db.with_db(csv_path, "db.txt")
     for row_id in db_table.index:
         row = db_table.loc[row_id].values
+        # db.create_all()
+        # db.session.commit()
         db.session.add(Tableuni(row[0], row[1], row[2], row[3], row[4]))
         db.session.commit()
         print(row)

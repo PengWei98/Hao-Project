@@ -14,6 +14,6 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 db.create_all()
 db.session.commit()
-print("begin!")
+print("Begin!")
 
 from app import models, views
