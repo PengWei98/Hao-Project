@@ -1,25 +1,299 @@
-Ft.,Algorithm,Facebook,arXiv,PPI
- ,LINE-1,0.6301,0.5413,0.6353
- ,LINE-2,0.8063,0.6201,0.8635
- ,SDNE,0.8244,0.7235,0.8499
-(a),DeepWalk,0.7183,0.9792,0.7288
- ,Node2Vec,0.7618,0.9899,0.8719
- ,RANE,0.7086,0.9937,0.7316
- ,LINE-1,0.7383,0.5169,0.5922
- ,LINE-2,0.7822,0.5136,0.8228
- ,SDNE,0.9497,0.8306,0.7764
-(b),DeepWalk,0.9403,0.8851,0.7195
- ,Node2Vec,0.9603,0.9805,0.7277
- ,RANE,0.9468,0.9848,0.7005
- ,LINE-1,0.7325,0.5493,0.6277
- ,LINE-2,0.7496,0.5301,0.7883
- ,SDNE,0.9902,0.7265,0.7663
-(c),DeepWalk,0.9884,0.8472,0.9016
- ,Node2Vec,0.9343,0.9079,0.8449
- ,RANE,0.9882,0.9559,0.9030
- ,LINE-1,0.7369,0.5372,0.6203
- ,LINE-2,0.7647,0.5269,0.7977
- ,SDNE,0.9871,0.5924,0.7710
-(d),DeepWalk,0.9893,0.8314,0.9024
- ,Node2Vec,0.9364,0.8561,0.8469
- ,RANE,0.9902,0.9412,0.9038
+ding (RANE) that simultaneously incorporates multiple relations,,"viewing, co-sharing, or co-thumbing up relations among videos."
+"",,"Furthermore, videos are curated into playlists and playlists are"
+"while learning, and takes advantage of node degree changes which",,
+"",,created under subscribers. ese structured relations can also be
+re ect the network topology and local structured information. e,,
+"",,"represented by edges. In an academic citation network, authors can"
+results demonstrate the bene ts of our approach on predictive tasks,,
+"",,be viewed as nodes and edges may indicate the corresponding co-
+"of link prediction, multi-label classi cation and node clustering for",,
+"",,"authorships, a liation relations, co-research interest relations, etc."
+ve standard public data sets and show that RANE outperforms,,
+"",,"In this work, we categorize all di erent types of real-world relations"
+other state-of-the-art representation learning approaches in terms,,
+"",,into two categories: explicit relations and implicit relations. Explicit
+of several evaluation metrics. We release the package of RANE at,,
+"",,relations represent the major entity relations we want to capture
+h ps://github.com/liwzhi/RANE.,,
+"",,in the network which is in general task dependent. e explicit
+KEYWORDS,,relations tightly associate with the predictive tasks and directly
+"",,re ect the relatedness of entities in the real world. e rest belongs
+"Network Embedding, Random Walk, Multi-dimensional Network",,
+"",,"to implicit relations, which contain all rich information about the"
+"",,"entities themselves and their latent interactions. For example, in"
+1 INTRODUCTION,,
+"",,"the task of recommending relevant videos in Youtube, co-viewing"
+Network connects hundreds of millions of objects in the world,,relations among videos are the underlying foundation which serves
+and turns into a vast source to produce important information,,as the major explicit relations we want to model. At the same
+"around our everyday life. For example, millions of Internet users",,"time, all other relations like co-sharing, playlists/subscriber struc-"
+Wentao Guo,Darlene King
+JD.com,University of Texas Southwestern
+"6Fl., Tower A, Beichen Century",Medical Center
+Center,5323 Harry Hines Blvd
+"Beijing, China 100101","Dallas, Texas 75390"
+guowentao@jd.com,adarlenea@msn.com
+on implicit relations will deviate the ultimate predictive problem,"to the violation of sample independence. To tackle these issues, net-"
+"and deteriorate the embedding performance. Second, there are",work embedding e orts have been enforced in recent decades that
+"multiple types of implicit relations at the same time. For example,",translate nodes into low dimensional vector representations which
+co-sharing relations in Youtube video recommendation scenario,aim to preserve original network information as much as possible.
+are quite di erent from the playlists/subscriber structured relations.,"In general, existing research about learning network embedding"
+How to create a uni ed learning framework to incorporate all rela-,can be categorized into the following three categories.
+"tions is not obvious. ird, incorporating di erent types of implicit",
+relations usually cause scalability issues since the learning time,2.1 Learning Network Embedding via Matrix
+complexity grows linearly or even quadratically with the number,Factorization
+of relations. Most of existing algorithms of learning network em-,
+"",A network and its topological information can be easily repre-
+bedding either focus on only learning from explicit relations and,
+"",sented by an adjacency matrix where each element in the matrix
+completely ignoring implicit relations or don’t scale well for many,
+"",denotes the similarity or neighboring measurement between a pair
+implicit relations of di erent types.,
+"","of nodes in the graph. Matrix factorization (MF), which aims to"
+"In this work, we propose a relation-aware network embedding",
+"",decompose the original matrix into the product of two low-rank
+algorithm (RANE) to learn network embedding from both explicit,
+"","matrices, is o en viewed as one type of approaches that learn the"
+and implicit relations e ciently and e ectively. Our approach gen-,
+"",network embeddings. A number of MF approaches have been ap-
+"erates network node embeddings by four steps: rstly, it utilizes the",
+"",plied in di erent elds and led to various successful applications.
+rich node feature vectors to create inferable implicit relations and,
+"","In biological networks, Natarajan and Dhillon apply MF to learn"
+"collects all explicit and implicit relations in the network. Secondly,",
+"",latent factors for be er explaining the gene-disease associations
+it computes both rst-order and second-order proximity scores,
+"","[23]; in language modeling, Yang et al., introduce another MF al-"
+"for each relation encoded in the network. irdly, it conducts the",
+"",gorithm that combines with information from rich texts for the
+relation-aware random walk on the network and generates mean-,
+"","multi-class classi cation task [30]. In spite of the success of MF, it"
+"ingful node sequences. Last, it trains the RANE by using skip-gram",
+"",has several drawbacks when they are applied in learning network
+language models from the node sequences generated in previous,
+"",embedding: (1) the adjacency matrix only captures two dimensional
+step.,
+"",information which indicates only one relation. Even when tensor or
+Overall this paper makes the following contributions:,
+"",multi-dimensional MF has been developed for capturing more com-
+• It presents a uni ed framework to learn network embed-,"plicated relations, the capability of modeling higher-dimensional"
+ding from both explicit and many implicit relations of dif-,relations is still very limited; (2) storing and updating the adjacency
+ferent types.,matrix are typically computationally expensive. Since factorizing
+• It provides a exible way to adjust the balance between,a huge matrix involves matrix approximation for faster computa-
+explicit and implicit relations and it scales well with a large,"tion, large-scale MF usually su ers from substantial accuracy loss;"
+number of relations.,(3) it is di cult to capture local network structure in MF because
+• We evaluate our embedding algorithm and its bene ts,most MF approaches can only provide a global representation and
+"comprehensively in tasks of link prediction, multi-label",fail to capture sophisticated local relationships with the low-rank
+classi cation and node clustering with ve public available,approximation objective in MF approaches.
+datasets. We contribute our code to open source projects,
+and make this research more reproducible.,2.2 Learning Network Embedding via Random
+incorporating the information from the rst-order and second-order,,take into account not only explicit relations but also implicit re-
+"proximities in the network. However, there are some limitations",,lations in the network and (3) provide a exible way to balance
+for random walk approaches: (1) it is sensitive to changes from the,,between explicit and many implicit relations of di erent types.
+network topology. A small number of edge changes can a ect a,,"More speci cally, our method works as follows: besides the given"
+signi cant number of walks which invalidates the learned embed-,,"(observational) implicit relations, it creates an additional set of im-"
+dings; (2) it is weak in terms of capturing multiple relations. Most,,plicit latent similarity relations from node feature vectors (Section
+random walk embedding approaches are based on a single relation,,4.1). en it extracts rst-order and second-order proximities from
+in the network and they don’t generalize well on networks with,,both explicit and many implicit relations. e implicit relations are
+many relations. When they are applied to networks with multiple,,the union of generated implicit relations from node feature vectors
+"types of relations, both space complexity and time complexity are",,(inferable implicit relations) and the implicit relations naturally
+likely to increase to a large extent.,,existed (observational implicit relations) in the network (Section
+"",,"4.3). A er that, we develop a scalable relation-aware random walk"
+2.3 Learning Network Embedding via Deep,,algorithm to wisely jump among nodes according to our relation-
+Learning,,aware proximity scores which produces more meaningful nodes
+"",,"sequences (Section 4.2). Last, it utilizes skip-gram language models"
+"Deep neural network introduced by [1, 14] has shown its revolu-",,
+"",,to generate the relation-aware network embeddings (Section 4.4).
+tionary power in lots of elds such as natural language processing,,
+"[7, 20], image recognition [10, 15, 25], recommender systems [6, 8],",,
+"",,4.1 Implicit Relation Generation
+"etc. For network embedding tasks, there are quite a few successful",,
+"approaches based on deep learning that have been proposed, such",,Many implicit relations exist in the real-world information net-
+"as Node2Vec [11], SDNE [28], SDAE [4], etc. Although deep learn-",,work and they can be categorized as observational implicit relations
+ing based network embedding approaches provide good end-to-end,,and inferable implicit relations. Observational implicit relations are
+"solutions, the most notorious disadvantage for deep learning net-",,those implicit relations naturally appear in the network and can be
+work embedding is that the proposed embeddings have lost their,,observed and logged in the data. While inferable implicit relations
+physical meaning and are di cult for human to understand or,,are the opposite and they are computed and inferred from nodes
+"explain. Moreover, incorporating multiple relations into deep learn-",,"or other information in the network. For example, in the Youtube"
+"ing network embedding systems is error-prone. Last, deep neural",,"network for recommending relevant videos, video co-sharing and"
+network themselves are not easy to train or maintain comparing,,playlists/subscriber structured relations belong to observational
+with other types of embedding approaches.,,"implicit relations. At the same time, we have rich text and im-"
+"",,age content about each video and inferable implicit relations can
+3 PROBLEM STATEMENT,,be computed by using the similarity of each pair of nodes in the
+"",,network.
+"In real-world information network, there are both explicit and im-",,
+"plicit relations among netowrk entities, a.k.a , nodes. Furthermore,",,"In this work, we generate the inferable implicit relations by"
+"",|Ni ∩ Nj |k,,,"dow, we continue the walk with uniformly neighborhood sampling;"
+"",Qi j = |Ni | + |Nj | − |Ni ∩ Nj |k k k k,(4),,"otherwise, we will apply a discount on the probability of walking"
+"",,,,to that node.
+4.2.3,Relation-Aware Proximity Score. Once all pairs’,rst-,,
+order and second-order proximity scores are computed for both,,,,4.4 Embedding Generation via Language
+explicit and implicit,"relations, we construct the relation-aware",,,Modeling
+proximity score R,"i j by a weighed average of Pi j and Qi j , i.e., k",k,,Skip-gram is a language model that has enlightened many random
+Algorithm 1 RANE: Relation-Aware Network Embedding,"width, and 150 as the iteration rounds. For SDNE we also set 150"
+1: INPUT :,"as the iteration rounds, and for LINE we set 500. We utilize all"
+2:X: node feature vector set,representation learning methods to transform the network vertices
+3:E0: explicit relations encoded in the network,into a 128 dimensional vector space and compare the transformed
+"4: E1,E2, · · · , ET T : observational implicit relations",embeddings regarding area under the curve (AUC) for link predic-
+5: α : threshold to determine inferable implicit relations (eq.(4.1)).,"tion, F1-scores for multi-label classi cation, and Calinski-Harabaz"
+6: Bk : bin size to discretize node degrees in k th relation (eq.(2)).,score for node clustering.
+7: β : coe cient of combining rst/second-order proximity score,
+(eq.(5)).,5.1 Link prediction
+8: W : window size of discounting factor (eq.(7)).,"For link prediction, the graph G is only partially observed. Based on"
+9: λ: threshold to apply the discount penalty (eq.(8)).,
+"","the network embeddings, people predict the connectivity regarding"
+10: procedure Learning RANE,
+"",with the remaining unobserved edges by using standard classi ca-
+11: // Implicit Relation Generation,
+"","tion algorithms. In this task, we randomly select 50% edges for the"
+0,
+"12: Initialize relation set with explicit relation, i.e., E = E .",
+"",representation learning and the remaining 50% for link prediction.
+"13: Add observational implicit relations into E, i.e., E =",
+"",Meanwhile we blend the training and testing with unconnected
+"E ∪ {E1,E2, · · · , ET }.",
+"",node pairs so the data are balanced. Finally we train a logistic
+14: for each similarity metric do,
+"",regression classi er for each representation to predict the edge
+15: Create inferable implicit relation e by eq.(4.1),
+"",existence. Based on the 128 dimensional embeddings we transform
+"",〈 〉
+"16: Add e into E, i.e., E = E ∪ e}.",
+"","each embedding pair f (vi ), f (vj ) into the following 4 pairwise"
+17: // Relation-Aware Proximity Extraction,
+〈 〉,features that are commonly adopted in link prediction evaluation:
+"18: for each node pairs vi ,vj , vi ∈ V , vj ∈ V do",f (vi )+f (vj )
+"",(a) average feature: ; (b) Hadamard transform feature:
+"",2
+19: for each relation e ∈ E do,f (vi ) ∗ f (vj ); (c) L1-di erence: | f (vi ) − f (vj ) |; (d) L2-di erence:
+20: Compute rst-order proximity Pi j by eq.(3).,| f (vi ) − f (v ) |j 2.
+21: Compute second-order proximity Qi j by eq.(4).,
+"",We evaluate all representation learning approaches over the
+22: Compute relation-aware proximity score Ri j by eq.(5).,following 3 public datasets:
+23: // Relation-Aware Random Walk,• Facebook social network data (Facebook) [16]: there are
+24: Entire node sequence set S = {},"4, 039 nodes and 88, 234 edges in the network, where each"
+"25: for each i = 1, · · · ,N do",
+"",node represents a single user and each edge represents
+26: Generate sequence si at ith round by repeating relation-,whether there exists the friendship between two corre-
+aware random walk based on eq.(6). S = S ∪ si .,sponding users. e network by itself is undirected.
+27: // Embedding Generation via Language Modeling,• Astro physics collaboration network data (arXiv) [16]: there
+"28: Train skip-gram models based on S, i.e., Y = SkipGram(S).","are 18, 772 nodes and 198, 110 edges in the network, where"
+"","each node represents an author, and each edge represents"
+"",the co-authorship in the scienti c papers that are submi ed
+"",to the arXiv platform. e network by itself is undirected.
+• Node2Vec [11]: improves on the original random walk,
+"","• Protein-Protein Interaction data (PPI) [26]: there are 3, 890"
+strategy for generating sequences by combining breadth-,
+"","nodes and 76, 584 edges in the network which is a sub-"
+rst sampling and depth- rst sampling walking preference,
+"",graph from a PPI network for Homo Sapiens. Each node
+to visit more unknown samples that are further away from,
+"",represents a particular protein and each edge represents
+"the starting node. In experiment, we set two control pa-",
+"",the biological interaction between a pair of proteins. e
+"rameter in Node2Vec as p = 1 and q = 2 (shown in [9], for",
+"",network by itself is undirected.
+p = 1 and q = 1 Node2Vec is the equivalent to DeepWalk).,
+• LINE [27]: not only considering the rst-order proximity,e experiment results are reported in Table 1. RANE either
+but also the second-order proximity in the network struc-,beats or is at least as good as other baselines on 3 public datasets.
+"ture, LINE nds the representation that preserves both","For Facebook data, RANE wins on L2-di erence features and gets"
+st nd,
+proximities for each node. LINE-1 and LINE-2 are two,the overall equally best performance as SDNE on L1-di erence
+variants of LINE implementations which use the rst- and,"features. For arXiv data, RANE wins all 4 standard features and"
+second-order proximity respectively.,"gets the overall best performance on average features. For PPI data,"
+• SDNE [28]: not only considering the rst-order and second-,RANE wins on L1-di erence and L2-di erence features and again
+"order relations, SDNE uses the deep learning framework",gets the overall best performance on L2-di erence features.
+to nd the low dimensional representation that preserves,
+higher dimensional non-linear relations and local network,5.2 Multi-label classi cation
+structures.,
+"",Multi-label classi cation has been well studied and it has been
+Some important model parameter se ings in implementations,tightly connected with representation learning and network under-
+Ft.,Algorithm,Facebook,arXiv,PPI,"When the training set reaches 80% & 90%, Node2Vec and RANE"
+"",st,,,,
+"",LINE-1,0.6301,0.5413,0.6353,"yield to similar performance. For Wiki POS data, RANE wins cases"
+"",nd,,,,
+"",LINE-2,0.8063,0.6201,0.8635,
+"",,,,,"for smaller training sets (10% - 40%). Later, Node2Vec and Deep-"
+"",SDNE,0.8244,0.7235,0.8499,
+"",,,,,Walk catch up when the training set gets big enough (50% - 90%)
+(a),DeepWalk,0.7183,0.9792,0.7288,
+"",,,,,for both methods to extract meaningful information so to reach
+"",Node2Vec,0.7618,0.9899,0.8719,
+"",,,,,"comparably good embedding results. For Blog data, which contains"
+"",RANE,0.7086,0.9937,0.7316,
+"",st,,,,"most number of edges among 3 networks, RANE performs the best"
+"",LINE-1,0.7383,0.5169,0.5922,
+"",nd,,,,by beating other baselines in all cases (10% - 90%).
+"",LINE-2,0.7822,0.5136,0.8228,
+"",,,,,"Parameter sensitivity: for representation learning, the algo-"
+"",SDNE,0.9497,0.8306,0.7764,
+(b),DeepWalk,0.9403,0.8851,0.7195,rithm robustness is also an important issue. Since both Node2Vec
+"",Node2Vec,0.9603,0.9805,0.7277,"and RANE are walk type of representation learning, we compare"
+"",RANE,0.9468,0.9848,0.7005,both approaches’ parameter sensitivity regarding with the follow-
+"",st,,,,
+"",LINE-1,0.7325,0.5493,0.6277,ing parameters: (1) embedding dimensionalityd ; (2) the walk length
+"",nd,,,,
+"",LINE-2,0.7496,0.5301,0.7883,L; the number of walks per node U ; (3) the window widthW . We
+"",SDNE,0.9902,0.7265,0.7663,
+"",,,,,utilize PPI data and the same logistic regression classi er to conduct
+(c),DeepWalk,0.9884,0.8472,0.9016,
+"",,,,,"this experiment. As shown in Figure 1 & 2, when the embedding"
+"",Node2Vec,0.9343,0.9079,0.8449,
+"",,,,,"dimension d gets larger, the Micro-F1 and Macro-F1 for both algo-"
+"",RANE,0.9882,0.9559,0.9030,
+"",st,,,,"rithms drop quickly, which implies the embedded vectors contain"
+"",LINE-1,0.7369,0.5372,0.6203,
+"",nd,,,,redundant information and the logistic regression classi er lean
+"",LINE-2,0.7647,0.5269,0.7977,
+"",,,,,to over t. Regarding with walking length L and number of walks
+"",SDNE,0.9871,0.5924,0.7710,
+(d),DeepWalk,0.9893,0.8314,0.9024,"per node U , both methods are not very sensitive with respect to"
+"",Node2Vec,0.9364,0.8561,0.8469,"Macro-F1 and Micro-F1 performance. For window widthW , RANE"
+"",RANE,0.9902,0.9412,0.9038,appears more stable (dropping slower) whenW gets larger.
+Algorithm,PPI data,Wiki POS data,and node clustering on ve public datasets. Our experimental re-
+st,,,
+LINE-1,26.0379,21.0849,sults demonstrate that our RANE approach can outperform other
+nd,,,
+LINE-2,26.4460,21.3307,
+"",,,well-known network embedding models.
+SDNE,74.7855,24.6970,
+DeepWalk,77.3388,28.5728,
+Node2Vec,77.2953,28.9533,
+RANE,77.5942,29.233,REFERENCES
+"",Table 5: Calinski-Harabaz score [1],Yoshua Bengio. 2012. Practical recommendations for gradient-based training of
+"",,"deep architectures. In Neural networks: Tricks of the trade. Springer, 437–478."
+"",[2],"Smriti Bhagat, Graham Cormode, and S Muthukrishnan. 2011. Node classi cation"
+"",,"in social networks. In Social network data analytics. Springer, 115–148."
+"",[3],Tadeusz Caliński and Jerzy Harabasz. 1974. A dendrite method for cluster
+"",,"analysis. Communications in Statistics-theory and Methods 3, 1 (1974), 1–27."
+"",[4],"Shaosheng Cao, Wei Lu, and Qiongkai Xu. 2016. Deep Neural Networks for"
+5.4,Scalability,Learning Graph Representations.. In AAAI. 1145–1152.
+"",[5],Ting Chen and Yizhou Sun. 2017. Task-guided and path-augmented heteroge-
+"In real applications, networks are typically in large-scale. A practi-",,
+"",,neous network embedding for author identi cation. In Proceedings of the Tenth
+"cal network like “Youtube users”, “e-commerce customers” could",,"ACM International Conference on Web Search and Data Mining. ACM, 295–304."
+easily reach to hundreds of millions in nodes and tens of billions in,[6],"Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen, Tal Shaked, Tushar Chandra,"
+edges. Loading the whole network into memory forwalk generation,,"Hrishi Aradhye, Glen Anderson, Greg Corrado, Wei Chai, Mustafa Ispir, and"
+"",,others. 2016. Wide & deep learning for recommender systems. In Proceedings of
+could be resource costly.,is issue can be solved via parallelized,"the 1st Workshop on Deep Learning for Recommender Systems. ACM, 7–10."
+ed architecture for natural lan-computing.,[7] e experiment throughout this work is done by a,Ronan Collobert and Jason Weston. 2008. A uni
+"",,guage processing: Deep neural networks with multitask learning. In Proceedings
+"quad-core Intel Core i7 2.6GHz, 16Gb memory Linux machine. Al-",,
+"",,"of the 25th international conference on Machine learning. ACM, 160–167."
+"gorithm by itself, RANE scales very well and is good for large-scale",[8],"Paul Covington, Jay Adams, and Emre Sargin. 2016. Deep neural networks"
+"",,for youtube recommendations. In Proceedings of the 10th ACM Conference on
+network representation learning since (1) negative sampling in,,
+"",,"Recommender Systems. ACM, 191–198."
+walk generation is e,cient in terms of the space complexity O (N ),
+"",[9],"Yuxiao Dong, Nitesh V Chawla, and Ananthram Swami. 2017. metapath2vec:"
+as well as constant time complexity;,(2) the stochastic gradient,Scalable representation learning for heterogeneous networks. In Proceedings of
+"",,the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data
+ascent during optimization also scales well with the network size.,,
+"",,"Mining. ACM, 135–144."
+"",[10],"Xavier Glorot, Antoine Bordes, and Yoshua Bengio. 2011. Deep sparse recti er"
+6,CONCLUSION,neural networks. In Proceedings of the Fourteenth International Conference on
+"",,Arti cial Intelligence and Statistics. 315–323.
+"In this paper, we presented our relation-aware network embedding",[11],Aditya Grover and Jure Leskovec. 2016. node2vec: Scalable feature learning for
+"",,networks. In Proceedings of the 22nd ACM SIGKDD international conference on
+learning algorithm. In contrast to the traditional network embed-,,
+"",,"Knowledge discovery and data mining. ACM, 855–864."
+"ding methods, our approach is able to utilize rich feature vectors",[12],Yuhong Guo and Suicheng Gu. 2011. Multi-label classi cation using conditional
