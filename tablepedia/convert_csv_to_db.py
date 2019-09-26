@@ -43,9 +43,13 @@ def get_set_type(iterable):
     
 
 def lowercase_df(df):
+    
     for i in range(df.shape[0]):
         for j in range(df.shape[1]):
-            df.iloc[i, j] = df.iloc[i, j].lower()
+            if type(df.iloc[i, j]) == str:
+                df.iloc[i, j] = df.iloc[i, j].lower()
+            else:
+                pass
     
     return df
 
