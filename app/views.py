@@ -30,7 +30,7 @@ def upload_file():
     png_path = upload_path.split(".")[0] + "-" + id + ".png"
     open(png_path, "w")
     table = convert_pdf_to_csv.with_table(pdf_path, csv_path,
-                                png_path)
+                                png_path, 6)
     # print(type(table))
     # print(table)
     print(table)
