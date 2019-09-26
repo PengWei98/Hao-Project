@@ -127,7 +127,7 @@ def get_db_list(fileName, df, firstRow, firstCol, singleDict):
     for i in range(firstRow, df.shape[0]):
         for j in range(firstCol, df.shape[1]):
             cellDict = get_cell_list(df, firstRow, firstCol, i, j, singleDict)
-            db_list.append([fileName, cellDict[1], cellDict[2], cellDict[3], df.iloc[i, j]])
+            db_list.append([cellDict[1], cellDict[2], cellDict[3], df.iloc[i, j], fileName])
             # print(cellDict)
     return db_list
 
@@ -140,6 +140,6 @@ def with_db(csv_path, db_path):
     firstRow, firstCol = firstCell(df)
     singleDict = get_single_dict(df, firstRow, firstCol)
     db_list = get_db_list(fileName, df, firstRow, firstCol, singleDict)
-    header = ['FileName', 'Dataset', 'Model', 'Metric', 'Value']
+    header = ['Dataset', 'Model', 'Metric', 'Value', 'FileName']
     DataFrame(db_list).to_csv(db_path, encoding='utf-8', index=False, header=header)
     return DataFrame(db_list)
