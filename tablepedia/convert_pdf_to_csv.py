@@ -130,20 +130,29 @@ def firstCell(df):
 
 
 def with_table(path, out, png_path, page='all'):
-    tabula.convert_into(path, out, output_format="csv", pages=page)
+    try:
+        tabula.convert_into(path, out, output_format="csv", pages=page)
+    except:
+        return 'This pdf is not parasble!'
     # return tabula.read_pdf(pdf_path, header=-1, pages=page)
     df = pd.read_csv(out, encoding='utf-8', header=-1)
     df = df.drop(cleanRows(df), axis=0)
+    df = df.reset_index()
+    del df['index']
     df = df.drop(longColumns(df), axis=1)
     df = df.drop(longRows(df), axis=0)
     df = move_nans(df)
     df.to_csv(out, encoding='utf-8', header=0, index=False)
 
     row, column = firstCell(df)
+    print(row, column)
+    
+    if not (3 > row > 0 and 3 > column > 0): 
+        return 'No table is detected in the pdf.'
+    
     render_mpl_table(df, header=(row, column), col_width=1.8)
     plt.savefig(png_path)
     # plt.show()
-
     return df
 
 
@@ -152,5 +161,4 @@ def move_nans(df):
         for j in range(df.shape[1]):
             if str(df.iloc[i, j]) == 'nan':
                 df.iloc[i, j] = ' '
-    print(str(df.iloc[3, 0]))
     return df

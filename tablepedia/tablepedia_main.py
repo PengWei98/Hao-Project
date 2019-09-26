@@ -25,13 +25,16 @@ fileName = os.path.basename(pdf_path)
 
 # Step 1: Input a pdf and page, output csv & png
 df = with_table(pdf_path, csv_path, png_path, page)
-print(df)
 
-# Evaluation 1: Quality of extracted table
-print(df)
+if type(df) == str:
+    print(df)
 
-# Step 2: Input csv, output db(csv type)
-df = with_db(csv_path, db_path)
+else:
+    # Evaluation 1: Quality of extracted table
+    print(df)
 
-# Evaluation 2: Quality of db
-print(DataFrame(df))
+    # Step 2: Input csv, output db(csv type)
+    df = with_db(csv_path, db_path)
+
+    # Evaluation 2: Quality of db
+    print(DataFrame(df))
