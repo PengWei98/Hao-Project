@@ -58,7 +58,7 @@ def upload_file():
                 table_json["table"].append(row)
             print(table_json)
             return jsonify(table_json)
-    print("nononoononononon")
+    # print("nononoononononon")
     table_json["table"] = []
     table_json["id"] = "error"
     return jsonify(table_json)
@@ -94,14 +94,14 @@ def get_db_table():
     db_table = convert_csv_to_db.with_db(csv_path, "db.txt")
     for row_id in db_table.index:
         row = db_table.loc[row_id].values
-        db.drop_all()
-        db.create_all()
-        db.session.commit()
+        # db.drop_all()
+        # db.create_all()
+        # db.session.commit()
         db.session.add(Tableuni(row[0], row[1], row[2], row[3], row[4]))
         db.session.commit()
-        print(row)
+        # print(row)
         # test
-        break
+        # break
         #
     print(db_table)
     return render_template('index.html', state=2, db_table=db_table, remarkform=remarkform, id=id, fileform=fileform)
