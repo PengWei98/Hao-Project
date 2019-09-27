@@ -78,23 +78,24 @@
             <div class="col-lg-10 mx-auto">
                 <h2>Use test data in our paper</h2>
                 <p class="lead mb-5">System will show the whole dataset!</p>
-                <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form">
-
-                    <!--<label class="col-form-label lead" for="inputDefault">Input a number as the page number(all pages-->
-                                <!--default):</label>-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-5"></div>-->
-                        <!--<div class="form-group col-md-2">-->
-                            <!--<input type="text" class="form-control" placeholder="all" id="inputDefault">-->
-                        <!--</div>-->
-                    <!--</div>-->
+                <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form" name="upload_form">
+                    {{ fileform.hidden_tag() }}
+                    <label class="col-form-label lead">Input a number as the page number("0" for all pages ):</label>
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                        <div class="form-group col-md-2">
+                            <input type="text" class="form-control" id="page" name="page" value="0"
+                                   onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+                                   onafterpaste="this.value=this.value.replace(/[^\d]/g,'') ">
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-3"></div>
                         <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="file">
+                                    <input type="file" class="custom-file-input" name="file" id="file">
                                     <label class="custom-file-label">Choose file</label>
                                 </div>
                                 <div class="input-group-append">
@@ -108,7 +109,6 @@
         </div>
     </div>
 </section>
-
 
 <!--table modal-->
 <div class="modal inmodal fade" id="tableModal" style="overflow:scroll" data-backdrop="static">
@@ -232,7 +232,7 @@
     <div class="container text-center">
         <h2 class="mb-4">Your evaluation will promote us to do better!</h2>
         <form action="remark" method='POST' id="remark_form">
-            {{ form.hidden_tag() }}
+            {{ remarkform.hidden_tag() }}
             <div class="row main">
                 <div class="col-md-8">
                     <div class="form-group">
@@ -308,12 +308,13 @@
 
 <script type="text/javascript">
     function upload_file() {
-        var formData =
-            new FormData($("#upload_form")[0]);
+        var form = document.forms.namedItem("upload_form");
+        var fd = new FormData(form);
+
         $.ajax({
                 url: "/upload",
                 type: "POST",
-                data: formData,
+                data: fd,
                 async: true,
                 cashe: false,
                 contentType: false,
@@ -323,6 +324,10 @@
                 },
                 success: function (table_data) {
                     $('#loadingModal').modal('hide');
+                    if (table_data.table.length == 0) {
+                        alert("Sorry! We don't find any table in the paper!");
+                        return;
+                    }
                     document.getElementsByTagName('body')[0].classList.add("modal-open");
                     $("#tableModal").modal("show");
                     for (i in table_data.table) {
@@ -341,6 +346,7 @@
                     div.setAttribute("hidden", "")
                     div.innerHTML = table_data.id;
                     parent.appendChild(div);
+
                 },
                 error: function (table_data) {
                     $('#loadingModal').modal('hide');

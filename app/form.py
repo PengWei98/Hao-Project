@@ -4,15 +4,17 @@
 # @FileName: form.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, FileField
 from wtforms.validators import DataRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+
+
+class FileForm(FlaskForm):
+    page = StringField('page', validators=[DataRequired()])
+    file = FileField('file', validators=[FileRequired(), FileAllowed(['pdf'])])
 
 
 class RemarkForm(FlaskForm):
-    # username = StringField('Username', validators=[DataRequired()])
-    # password = PasswordField('Password', validators=[DataRequired()])
-    # remember_me = BooleanField('Remember Me')
-    # submit = SubmitField('Sign In')
     textarea = StringField('textarea', validators=[DataRequired()])
     select = IntegerField('select', validators=[DataRequired()])
     filename = StringField('filename', validators=[DataRequired()])
