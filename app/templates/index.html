@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -72,8 +72,6 @@
 </header>
 
 
-
-
 <section class="content-section bg-light" id="about">
     <div class="container text-center">
         <div class="row">
@@ -81,11 +79,30 @@
                 <h2>Use test data in our paper</h2>
                 <p class="lead mb-5">System will show the whole dataset!</p>
                 <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form">
-                    <input type="file" name="file">
-                    <br/>
-                    <br/>
-                    <input type="button" class="btn btn-dark btn-xl js-scroll-trigger" value="upload your own PDF"
-                           id="upload_pdf" onclick="upload_file()" data-loading-text="Loading...">
+
+                    <!--<label class="col-form-label lead" for="inputDefault">Input a number as the page number(all pages-->
+                                <!--default):</label>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-5"></div>-->
+                        <!--<div class="form-group col-md-2">-->
+                            <!--<input type="text" class="form-control" placeholder="all" id="inputDefault">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="file">
+                                    <label class="custom-file-label">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="upload_pdf" onclick="upload_file()">Upload</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -94,7 +111,7 @@
 
 
 <!--table modal-->
-<div class="modal inmodal fade" id="tableModal" style="overflow:scroll">
+<div class="modal inmodal fade" id="tableModal" style="overflow:scroll" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
@@ -119,22 +136,70 @@
     </div>
 </div>
 
+
+<!--tip modal-->
+<div class="modal inmodal fade" id="tipModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                {% if state == 1 %}
+                <h3 class="modal-title">Sorry, we will try to do better!</h3>
+                {% endif %}
+                {% if state == 2 %}
+                <h3 class="modal-title">Thank you for your contribution!</h3>
+                {% endif %}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            {% if state == 2 %}
+            <div class="modal-body">
+                Now slide down and you can see your table!
+            </div>
+            {% endif %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--loading modal-->
 <div class="modal fade" id="loadingModal">
     <div class="modal-dialog modal-sm">
-
         <img alt=""
              src="data:image/gif;base64,R0lGODlhGQAZAJECAK7PTQBjpv///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5OTYyNTQ4Ni02ZGVkLTI2NDUtODEwMy1kN2M4ODE4OWMxMTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUNGNUFGRUFGREFCMTFFM0FCNzVDRjQ1QzI4QjFBNjgiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUNGNUFGRTlGREFCMTFFM0FCNzVDRjQ1QzI4QjFBNjgiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk5NjI1NDg2LTZkZWQtMjY0NS04MTAzLWQ3Yzg4MTg5YzExNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5OTYyNTQ4Ni02ZGVkLTI2NDUtODEwMy1kN2M4ODE4OWMxMTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQFCgACACwAAAAAGQAZAAACTpSPqcu9AKMUodqLpAb0+rxFnWeBIUdixwmNqRm6JLzJ38raqsGiaUXT6EqO4uIHRAYQyiHw0GxCkc7l9FdlUqWGKPX64mbFXqzxjDYWAAAh+QQFCgACACwCAAIAFQAKAAACHYyPAsuNH1SbME1ajbwra854Edh5GyeeV0oCLFkAACH5BAUKAAIALA0AAgAKABUAAAIUjI+py+0PYxO0WoCz3rz7D4bi+BUAIfkEBQoAAgAsAgANABUACgAAAh2EjxLLjQ9UmzBNWo28K2vOeBHYeRsnnldKBixZAAA7"/>
 
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+</div>
 
 
-{% if show %}
+<!--remark modal-->
+<div class="modal inmodal fade" id="remarkModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                Your remark has been submitted! Thank you for your contribution!
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if state == 2 %}
 <section class="content-section bg-primary text-white text-center" id="table">
     <div class="container">
         <div class="content-section-heading">
             <h3 class="text-secondary mb-0">Maybe</h3>
-            <h2 class="mb-5">This is your table?</h2>
+            <h2 class="text-secondary mb-5">This is your table?</h2>
         </div>
 
         <table class="table table-striped table-hover">
@@ -161,6 +226,42 @@
 
     </div>
 </section>
+
+
+<section class="content-section bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">Your evaluation will promote us to do better!</h2>
+        <form action="remark" method='POST' id="remark_form">
+            {{ form.hidden_tag() }}
+            <div class="row main">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="textarea">Please enter your comment here:</label>
+                        <textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="select">Please choose your remark here:</label>
+                        <select class="form-control" id="select" name="select">
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                        </select>
+                        <input type="hidden" name="filename" id="filename" value={{ id }}>
+                        <br/>
+                        <br/>
+                        <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
+                               onclick="submit_remark()">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
 {% endif %}
 
 <!-- Footer -->
@@ -217,20 +318,13 @@
                 cashe: false,
                 contentType: false,
                 processData: false,
-
-
                 beforeSend: function () {
                     $('#loadingModal').modal({backdrop: 'static', keyboard: false});
                 },
-
-
                 success: function (table_data) {
-
                     $('#loadingModal').modal('hide');
                     document.getElementsByTagName('body')[0].classList.add("modal-open");
-
                     $("#tableModal").modal("show");
-
                     for (i in table_data.table) {
                         var tr;
                         tr = "<tr>"
@@ -243,34 +337,70 @@
                     var parent = document.getElementById("pdf_table");
                     var div = document.createElement("div");
                     // document.getElementsByTagName('body')[0].classList.add("modal-open");
-
                     div.setAttribute("id", "table_id");
                     div.setAttribute("hidden", "")
-
                     div.innerHTML = table_data.id;
                     parent.appendChild(div);
                 },
                 error: function (table_data) {
-                    alert("Fail to Upload!")
+                    $('#loadingModal').modal('hide');
+                    alert("Fail to Upload!");
                 },
-                // complete: function () {
-                //     $('#loadingModal').modal('hide');
-                // }
+                complete: function () {
+                    $('#loadingModal').modal('hide');
+                }
+
             }
         )
     }
 
     function correct_pdf_table() {
-        alert("Thank you for your contribution!")
         var id = document.getElementById("table_id").innerText;
         window.location.href = "/db_table?id=" + id;
     }
 
     function incorrect_pdf_table() {
-        alert("Sorry! We will do better!");
-        window.location.href = "/";
+        window.location.href = "/index?state=1";
     }
+
+    function submit_remark() {
+        $.ajax({
+            url: "/remark",
+            type: "POST",
+            data: $('#remark_form').serialize(),
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                $('#remarkModal').modal({
+                    backdrop: true,
+                    keyboard: true,
+                    show: true
+                });
+                setTimeout(function () {
+                    $("#remarkModal").modal("hide")
+                }, 3000);
+            }
+        })
+    }
+
 </script>
 
-</html>
+{% if state > 0 %}
+<script>
+    $(document).ready(function () {
+        $('#tipModal').modal({
+            backdrop: true,
+            keyboard: true,
+            show: true
+        });
+        setTimeout(function () {
+            $("#tipModal").modal("hide")
+        }, 3000);
+    });
+</script>
+{% endif %}
 
+
+</html>

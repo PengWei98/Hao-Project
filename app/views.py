@@ -11,6 +11,7 @@ import uuid
 import pandas as pd
 from app import db
 from app.models import *
+from app.form import *
 from tablepedia import convert_csv_to_db
 from tablepedia import convert_pdf_to_csv
 
@@ -30,7 +31,7 @@ def upload_file():
     png_path = upload_path.split(".")[0] + "-" + id + ".png"
     open(png_path, "w")
     table = convert_pdf_to_csv.with_table(pdf_path, csv_path,
-                                png_path, 6)
+                                          png_path, 6)
     # print(type(table))
     # print(table)
     print(table)
@@ -50,8 +51,29 @@ def upload_file():
     return jsonify(table_json)
 
 
+@app.route('/remark', methods=['POST'])
+def remark():
+    print("remark")
+    form = RemarkForm()
+    result = {}
+    if form.validate_on_submit():
+        comment = form.textarea.data
+        remark = form.select.data
+        filename = form.filename.data
+        filename = filename.split("/")[-1]
+        print(filename)
+        db.session.add(Evaluation(comment, remark, filename))
+        db.session.commit()
+        result["result"] = "1"
+        return jsonify(result)
+    else:
+        result["result"] = "0"
+        return jsonify(result)
+
+
 @app.route('/db_table', methods=['GET'])
 def get_db_table():
+    form = RemarkForm()
     id = request.args.get("id")
     csv_path = id + ".csv"
     table = pd.read_csv(csv_path, encoding='utf-8',
@@ -59,15 +81,23 @@ def get_db_table():
     db_table = convert_csv_to_db.with_db(csv_path, "db.txt")
     for row_id in db_table.index:
         row = db_table.loc[row_id].values
-        # db.create_all()
-        # db.session.commit()
+        db.drop_all()
+        db.create_all()
+        db.session.commit()
         db.session.add(Tableuni(row[0], row[1], row[2], row[3], row[4]))
         db.session.commit()
         print(row)
+        # test
+        break
+        #
     print(db_table)
-    return render_template('index.html', show=True, db_table=db_table)
+    return render_template('index.html', state=2, db_table=db_table, form=form, id=id)
 
 
 @app.route('/', methods=['GET', "POST"])
+@app.route('/index', methods=['GET', "POST"])
 def index():
-    return render_template('index.html', show=False, db_table=None)
+    state = request.args.get("state")
+    if state is not None:
+        return render_template('index.html', state=1, db_table=None)
+    return render_template('index.html', state=0, db_table=None)
