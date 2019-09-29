@@ -10,7 +10,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = 'notre_dame'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@167.71.248.105:3306/tableuni'
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@167.71.248.105:3306/tableuni'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = '/static/uploads'
+    STORE_LIMIT = 3 # the result will be stored in db if its remark is higher than this vallue

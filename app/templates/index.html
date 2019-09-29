@@ -571,7 +571,7 @@
                     $("#noResultModal").modal("show");
                 } else {
                     $("#searchingModal").modal("show");
-                    document.getElementById("num_result").innerHTML = table_data.method_score.length + " results returned";
+                    document.getElementById("num_result").innerHTML = table_data.methods.length + " results returned";
                     $("#searching_tr").empty();
                     $("#searching_tbody").empty();
                     var tr = '';
@@ -603,7 +603,7 @@
                     $("#noResultModal").modal("show");
                 } else {
                     $("#searchingModal").modal("show");
-                    document.getElementById("num_result").innerHTML = table_data.method_score.length + " results returned";
+                    document.getElementById("num_result").innerHTML = table_data.metrics.length + " results returned";
                     $("#searching_tr").empty();
                     $("#searching_tbody").empty();
                     var tr = '';
@@ -636,7 +636,7 @@
                     $("#noResultModal").modal("show");
                 } else {
                     $("#searchingModal").modal("show");
-                    document.getElementById("num_result").innerHTML = table_data.method_score.length + " results returned";
+                    document.getElementById("num_result").innerHTML = table_data.datasets.length + " results returned";
                     $("#searching_tr").empty();
                     $("#searching_tbody").empty();
                     var tr = '';

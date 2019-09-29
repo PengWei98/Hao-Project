@@ -58,7 +58,6 @@ def upload_file():
                 table_json["table"].append(row)
             print(table_json)
             return jsonify(table_json)
-    # print("nononoononononon")
     table_json["table"] = []
     table_json["id"] = "error"
     return jsonify(table_json)
@@ -72,8 +71,18 @@ def remark():
         comment = form.textarea.data
         remark = form.select.data
         filename = form.filename.data
-        filename = filename.split("/")[-1]
+        txt_path = filename + ".txt"
+        print(txt_path)
+        filename = filename.split("/")[-1][:-37]
         print(filename)
+        with open(txt_path, "r") as fr:
+            for line in fr:
+                row = line.split(",")
+                print(row)
+                if remark >= 3:
+                    db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""),
+                                            row[3].replace(" ", ""), filename))
+                    db.session.commit()
         db.session.add(Evaluation(comment, remark, filename))
         db.session.commit()
         result["result"] = "1"
@@ -91,19 +100,22 @@ def get_db_table():
     csv_path = id + ".csv"
     table = pd.read_csv(csv_path, encoding='utf-8',
                         header=-1)
-    db_table = convert_csv_to_db.with_db(csv_path, "db.txt")
+    txt_path = id + ".txt"
+    open(txt_path, "w")
+    db_table = convert_csv_to_db.with_db(csv_path, txt_path)
     for row_id in db_table.index:
         row = db_table.loc[row_id].values
+        row[4] = row[4][:-41] #remove uuid code
         # db.drop_all()
         # db.create_all()
         # db.session.commit()
-        db.session.add(Tableuni(row[0], row[1], row[2], row[3], row[4]))
-        db.session.commit()
+        # db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""), row[4].replace(" ", "")))
+        # db.session.commit()
         # print(row)
         # test
         # break
         #
-    print(db_table)
+    # print(db_table)
     return render_template('index.html', state=2, db_table=db_table, remarkform=remarkform, id=id, fileform=fileform)
 
 
@@ -174,9 +186,6 @@ def search4():
     text1 = request.args.get("text1")
     text2 = request.args.get("text2")
     text3 = request.args.get("text3")
-    print("text:")
-    print(text1)
-    print(text2)
     method_score = []
     results = Tableuni.query.filter_by(dataset=text2).filter_by(metric=text3).order_by(
         db.desc(Tableuni.score)).all()
