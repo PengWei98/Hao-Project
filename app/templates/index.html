@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Stylish Portfolio - Start Bootstrap Template</title>
+    <title>Tablepedia - Automating PDF Table Reading</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,13 +34,13 @@
 <nav id="sidebar-wrapper">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
-            <a class="js-scroll-trigger" href="#page-top">Start Bootstrap</a>
+            <a class="js-scroll-trigger" href="#page-top">Start TablePedia</a>
         </li>
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#page-top">Home</a>
         </li>
         <li class="sidebar-nav-item">
-            <a class="js-scroll-trigger" href="#about">About</a>
+            <a class="js-scroll-trigger" href="#upload">Upload</a>
         </li>
         {% if show %}
         <li class="sidebar-nav-item">
@@ -62,36 +62,53 @@
 <!-- Header -->
 <header class="masthead d-flex">
     <div class="container text-center my-auto">
-        <h1 class="mb-1">Stylish Portfolio</h1>
-        <h3 class="mb-5">
-            <em>A Free Bootstrap Theme by Start Bootstrap</em>
+        <h1 class="mb-1">Tablepedia</h1>
+        <br/>
+        <br/>
+        <h3 class="mb-1 lead">
+            Automating PDF Table Reading in an<br>
+            Experimental Evidence Exploration and Analytic System
         </h3>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#upload">Upload your own PDF</a>
+                <!--<button type="button" class="btn btn-primary btn-lg js-scroll-trigger" href="#upload">Upload your own PDF</button>-->
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#search">Using existing database</a>
+                <!--<button type="button" class="btn btn-primary btn-lg">Using existing database</button>-->
+            </div>
+        </div>
     </div>
     <div class="overlay"></div>
 </header>
 
 
-<section class="content-section bg-light" id="about">
+<section class="content-section bg-light" id="upload">
     <div class="container text-center">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <h2>Use test data in our paper</h2>
-                <p class="lead mb-5">System will show the whole dataset!</p>
+                <h3>Use Tablepedia based on your own experimental results in PDF papers</h3>
+                <p class="lead mb-5">Thank you for giving us some evaluations and helping us to improve it!</p>
+                <br/>
+                <br/>
                 <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form" name="upload_form">
                     {{ fileform.hidden_tag() }}
-                    <label class="col-form-label lead">Input a number as the page number("0" for all pages ):</label>
                     <div class="row">
-                        <div class="col-md-5"></div>
-                        <div class="form-group col-md-2">
+                        <div class="col-md-4">
+                            <label class="col-form-label lead">input table page("0" for all pages ):</label>
+                        </div>
+                        <div class="form-group col-md-1">
                             <input type="text" class="form-control" id="page" name="page" value="0"
                                    onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
                                    onafterpaste="this.value=this.value.replace(/[^\d]/g,'') ">
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3"></div>
+                        <div class="col-md-1"></div>
                         <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="custom-file">
@@ -99,7 +116,8 @@
                                     <label class="custom-file-label">Choose file</label>
                                 </div>
                                 <div class="input-group-append">
-                                    <span class="input-group-text" id="upload_pdf" onclick="upload_file()">Upload</span>
+                                    <span class="input-group-text" id="upload_pdf"
+                                          onclick="upload_file()">Confirm</span>
                                 </div>
                             </div>
                         </div>
@@ -199,17 +217,17 @@
     <div class="container">
         <div class="content-section-heading">
             <h3 class="text-secondary mb-0">Maybe</h3>
-            <h2 class="text-secondary mb-5">This is your table?</h2>
+            <h2 class="text-secondary mb-5"><span style="color: #ffffff;">This is your table?</span></h2>
         </div>
 
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th scope="col"><span style="color: #ffffff;">Dataset</th>
-                <th scope="col"><span style="color: #ffffff;">Method</th>
-                <th scope="col"><span style="color: #ffffff;">Metric</th>
-                <th scope="col"><span style="color: #ffffff;">Score</th>
-                <th scope="col"><span style="color: #ffffff;">FileName</th>
+                <th scope="col"><span style="color: #ffffff;">Dataset</span></th>
+                <th scope="col"><span style="color: #ffffff;">Method</span></th>
+                <th scope="col"><span style="color: #ffffff;">Metric</span></th>
+                <th scope="col"><span style="color: #ffffff;">Score</span></th>
+                <th scope="col"><span style="color: #ffffff;">FileName</span></th>
             </tr>
             </thead>
             <tbody>
@@ -229,20 +247,23 @@
 
 
 <section class="content-section bg-light">
-    <div class="container text-center">
-        <h2 class="mb-4">Your evaluation will promote us to do better!</h2>
+    <div class="container">
+        <h2 class="mb-4 text-center">Your evaluation will promote us to do better!</h2>
+        <br/>
+        <br/>
         <form action="remark" method='POST' id="remark_form">
             {{ remarkform.hidden_tag() }}
             <div class="row main">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label for="textarea">Please enter your comment here:</label>
+                        <label for="textarea" class="col-form-label lead">Please describe problems you meet when using
+                            our system. Thank you for helping us improve!</label>
                         <textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="select">Please choose your remark here:</label>
+                        <label for="select" class="col-form-label lead">Please choose your remark for our table.</label>
                         <select class="form-control" id="select" name="select">
                             <option>5</option>
                             <option>4</option>
@@ -253,8 +274,14 @@
                         <input type="hidden" name="filename" id="filename" value={{ id }}>
                         <br/>
                         <br/>
-                        <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
-                               onclick="submit_remark()">
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
+                                       onclick="submit_remark()">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -263,6 +290,85 @@
 </section>
 
 {% endif %}
+
+<!-- Services -->
+<section class="content-section bg-primary" id="search">
+    <div class="container">
+        <div class="col-lg-11 mx-auto">
+            <h3 class="text-center text-light">Now use our searching engine!</h3>
+            <p class="lead mb-5 text-center">Here are some templates for searching</p>
+            <br/>
+            <br/>
+
+            <div class="row no-gutters">
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 35rem;">
+                        <div class="card-header"><strong>Search Tip 1</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many methods were used for
+                                    the&nbsp;&nbsp;<input type="text" style="width: 80px;"
+                                                          class="form-control" id="search1"/>&nbsp;&nbsp;dataset?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right" onclick="search_1()">search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 35rem;">
+                        <div class="card-header"><strong>Search Tip 2</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many metrics were used to evaluate on&nbsp;&nbsp;<input type="text" style="width: 80px;"
+                                                         class="form-control"/>&nbsp;&nbsp;?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right">search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/><br/><br/><br/>
+            <div class="row no-gutters">
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 32rem;">
+                        <div class="card-header"><strong>Search Tip 3</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many datasets used with&nbsp;&nbsp;<input
+                                        type="text" style="width: 80px;"
+                                        class="form-control"/>&nbsp;&nbsp;in the same table?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right">search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 32rem;">
+                        <div class="card-header"><strong>Search Tip 4</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">What are the top 3 methods on&nbsp;&nbsp;<input
+                                        type="text" style="width: 80px;"
+                                        class="form-control"/>&nbsp;&nbsp;in terms of&nbsp;&nbsp;<input type="text"
+                                                                                                        style="width: 80px;"
+                                                                                                        class="form-control"/>&nbsp;&nbsp;?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right">search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 
 <!-- Footer -->
 <footer class="footer text-center">
@@ -389,6 +495,11 @@
                 }, 3000);
             }
         })
+    }
+
+    function search_1() {
+        var value = document.getElementById("search1").value
+        window.location.href = "/search1?text=" + value;
     }
 
 </script>
