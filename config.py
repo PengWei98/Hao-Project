@@ -14,3 +14,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@167.71.248.105:3306/tableuni'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = '/static/uploads'
+    STORE_LIMIT = 3 # the result will be stored in db if its remark is higher than this vallue

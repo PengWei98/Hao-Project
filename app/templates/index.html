@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Stylish Portfolio - Start Bootstrap Template</title>
+    <title>Tablepedia - Automating PDF Table Reading</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,13 +34,13 @@
 <nav id="sidebar-wrapper">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
-            <a class="js-scroll-trigger" href="#page-top">Start Bootstrap</a>
+            <a class="js-scroll-trigger" href="#page-top">Start TablePedia</a>
         </li>
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#page-top">Home</a>
         </li>
         <li class="sidebar-nav-item">
-            <a class="js-scroll-trigger" href="#about">About</a>
+            <a class="js-scroll-trigger" href="#upload">Upload</a>
         </li>
         {% if show %}
         <li class="sidebar-nav-item">
@@ -62,89 +62,74 @@
 <!-- Header -->
 <header class="masthead d-flex">
     <div class="container text-center my-auto">
-        <h1 class="mb-1">Stylish Portfolio</h1>
-        <h3 class="mb-5">
-            <em>A Free Bootstrap Theme by Start Bootstrap</em>
+        <h1 class="mb-1">Tablepedia</h1>
+        <br/>
+        <br/>
+        <h3 class="mb-1 lead">
+            Automating PDF Table Reading in an<br>
+            Experimental Evidence Exploration and Analytic System
         </h3>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#upload">Upload your own PDF</a>
+                <!--<button type="button" class="btn btn-primary btn-lg js-scroll-trigger" href="#upload">Upload your own PDF</button>-->
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#search">Using existing database</a>
+                <!--<button type="button" class="btn btn-primary btn-lg">Using existing database</button>-->
+            </div>
+        </div>
     </div>
     <div class="overlay"></div>
 </header>
 
-<script type="text/javascript">
 
-    function upload_file() {
-        var formData =
-            new FormData($("#upload_form")[0]);
-        $.ajax({
-                url: "/upload",
-                type: "POST",
-                data: formData,
-                async: true,
-                cashe: false,
-                contentType: false,
-                processData: false,
-                success: function (table_data) {
-                    $("#myModal").modal("show");
-                    for (i in table_data.table) {
-                        var tr;
-                        tr = "<tr>"
-                        for (j in table_data.table[i]) {
-                            tr = tr + '<td>' + table_data.table[i][j] + '</td>'
-                        }
-                        tr = tr + "</tr>"
-                        $("#pdf_table").append(tr)
-                    }
-                    var parent = document.getElementById("pdf_table");
-                    var div = document.createElement("div");
-
-                    div.setAttribute("id", "table_id");
-                    div.setAttribute("hidden", "")
-
-                    div.innerHTML = table_data.id;
-                    parent.appendChild(div);
-
-                },
-                error: function (table_data) {
-                    alert("Fail to Upload!")
-                }
-            }
-        )
-    }
-
-    function correct_pdf_table() {
-        alert("Thank you for your contribution!")
-        var id = document.getElementById("table_id").innerText;
-        window.location.href = "/db_table?id=" + id;
-    }
-
-    function incorrect_pdf_table() {
-        alert("Sorry! We will do better!");
-        window.location.href = "/";
-    }
-
-</script>
-
-<section class="content-section bg-light" id="about">
+<section class="content-section bg-light" id="upload">
     <div class="container text-center">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <h2>Use test data in our paper</h2>
-                <p class="lead mb-5">System will show the whole dataset!</p>
-                <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form">
-                    <input type="file" name="file">
-                    <br/>
-                    <br/>
-                    <input type="button" class="btn btn-dark btn-xl js-scroll-trigger" value="upload your own PDF"
-                           id="upload_pdf" onclick="upload_file()" data-loading-text="Loading...">
+                <h3>Use Tablepedia based on your own experimental results in PDF papers</h3>
+                <p class="lead mb-5">Thank you for giving us some evaluations and helping us to improve it!</p>
+                <br/>
+                <br/>
+                <form action="upload" enctype='multipart/form-data' method='POST' id="upload_form" name="upload_form">
+                    {{ fileform.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="col-form-label lead">input table page("0" for all pages ):</label>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <input type="text" class="form-control" id="page" name="page" value="0"
+                                   onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+                                   onafterpaste="this.value=this.value.replace(/[^\d]/g,'') ">
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="file" id="file">
+                                    <label class="custom-file-label">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="upload_pdf"
+                                          onclick="upload_file()">Confirm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
 
-
-<div class="modal inmodal fade" id="myModal">
+<!--table modal-->
+<div class="modal inmodal fade" id="tableModal" style="overflow:scroll" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
@@ -170,22 +155,129 @@
 </div>
 
 
-{% if show %}
+<!--tip modal-->
+<div class="modal inmodal fade" id="tipModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                {% if state == 1 %}
+                <h3 class="modal-title">Sorry, we will try to do better!</h3>
+                {% endif %}
+                {% if state == 2 %}
+                <h3 class="modal-title">Thank you for your contribution!</h3>
+                {% endif %}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            {% if state == 2 %}
+            <div class="modal-body">
+                Now slide down and you can see your table!
+            </div>
+            {% endif %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--loading modal-->
+<div class="modal fade" id="loadingModal">
+    <div class="modal-dialog modal-sm">
+        <img alt=""
+             src="data:image/gif;base64,R0lGODlhGQAZAJECAK7PTQBjpv///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5OTYyNTQ4Ni02ZGVkLTI2NDUtODEwMy1kN2M4ODE4OWMxMTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUNGNUFGRUFGREFCMTFFM0FCNzVDRjQ1QzI4QjFBNjgiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUNGNUFGRTlGREFCMTFFM0FCNzVDRjQ1QzI4QjFBNjgiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk5NjI1NDg2LTZkZWQtMjY0NS04MTAzLWQ3Yzg4MTg5YzExNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5OTYyNTQ4Ni02ZGVkLTI2NDUtODEwMy1kN2M4ODE4OWMxMTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQFCgACACwAAAAAGQAZAAACTpSPqcu9AKMUodqLpAb0+rxFnWeBIUdixwmNqRm6JLzJ38raqsGiaUXT6EqO4uIHRAYQyiHw0GxCkc7l9FdlUqWGKPX64mbFXqzxjDYWAAAh+QQFCgACACwCAAIAFQAKAAACHYyPAsuNH1SbME1ajbwra854Edh5GyeeV0oCLFkAACH5BAUKAAIALA0AAgAKABUAAAIUjI+py+0PYxO0WoCz3rz7D4bi+BUAIfkEBQoAAgAsAgANABUACgAAAh2EjxLLjQ9UmzBNWo28K2vOeBHYeRsnnldKBixZAAA7"/>
+
+    </div>
+</div>
+
+
+<!--remark modal-->
+<div class="modal inmodal fade" id="remarkModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                Your remark has been submitted! Thank you for your contribution!
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--searching modal-->
+<div class="modal inmodal fade" id="searchingModal" style="overflow:scroll" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <h3 class="modal-title">The results are shown below:</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <label class="col-form-label lead" id="num_result"></label>
+
+                <table class="center table table-hover table-striped" id="searching_table">
+                    <thead>
+                    <tr id="searching_tr">
+                        <!--<th>Methods</th>-->
+                    </tr>
+                    </thead>
+                    <tbody id="searching_tbody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--no result modal-->
+<div class="modal inmodal fade" id="noResultModal" style="overflow:scroll" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <h3 class="modal-title">Sorry! we don't find any result!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if state == 2 %}
 <section class="content-section bg-primary text-white text-center" id="table">
     <div class="container">
         <div class="content-section-heading">
             <h3 class="text-secondary mb-0">Maybe</h3>
-            <h2 class="mb-5">This is your table?</h2>
+            <h2 class="text-secondary mb-5"><span style="color: #ffffff;">This is your table?</span></h2>
         </div>
 
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th scope="col"><span style="color: #ffffff;">Dataset</th>
-                <th scope="col"><span style="color: #ffffff;">Method</th>
-                <th scope="col"><span style="color: #ffffff;">Metric</th>
-                <th scope="col"><span style="color: #ffffff;">Score</th>
-                <th scope="col"><span style="color: #ffffff;">FileName</th>
+                <th scope="col"><span style="color: #ffffff;">Dataset</span></th>
+                <th scope="col"><span style="color: #ffffff;">Method</span></th>
+                <th scope="col"><span style="color: #ffffff;">Metric</span></th>
+                <th scope="col"><span style="color: #ffffff;">Score</span></th>
+                <th scope="col"><span style="color: #ffffff;">FileName</span></th>
             </tr>
             </thead>
             <tbody>
@@ -202,7 +294,141 @@
 
     </div>
 </section>
+
+
+<section class="content-section bg-light">
+    <div class="container">
+        <h2 class="mb-4 text-center">Your evaluation will promote us to do better!</h2>
+        <br/>
+        <br/>
+        <form action="remark" method='POST' id="remark_form">
+            {{ remarkform.hidden_tag() }}
+            <div class="row main">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="textarea" class="col-form-label lead">Please describe problems you meet when using
+                            our system. Thank you for helping us improve!</label>
+                        <textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="select" class="col-form-label lead">Please choose your remark for our table.</label>
+                        <select class="form-control" id="select" name="select">
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                        </select>
+                        <input type="hidden" name="filename" id="filename" value={{ id }}>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
+                                       onclick="submit_remark()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
 {% endif %}
+
+<!-- Services -->
+<section class="content-section bg-primary" id="search">
+    <div class="container">
+        <div class="col-lg-11 mx-auto">
+            <h3 class="text-center text-light">Now use our searching engine!</h3>
+            <p class="lead mb-5 text-center">Here are some templates for searching</p>
+            <br/>
+            <br/>
+
+            <div class="row no-gutters">
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 35rem;">
+                        <div class="card-header"><strong>Searching Tip 1</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many methods were used for
+                                    the&nbsp;&nbsp;<input type="text" style="width: 80px;"
+                                                          class="form-control" id="search1"/>&nbsp;&nbsp;dataset?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right" onclick="search_1()">search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 35rem;">
+                        <div class="card-header"><strong>Searching Tip 2</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many metrics were used to evaluate
+                                    on&nbsp;&nbsp;<input type="text" style="width: 80px;"
+                                                         class="form-control" id="search2"/>&nbsp;&nbsp;?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right" onclick="search_2()">search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/><br/><br/><br/>
+            <div class="row no-gutters">
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 32rem;">
+                        <div class="card-header"><strong>Searching Tip 3</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">How many datasets used with&nbsp;&nbsp;<input
+                                        type="text" style="width: 80px;"
+                                        class="form-control" id="search3"/>&nbsp;&nbsp;in the same table?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right" onclick="search_3()">search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5">
+                    <div class="card border-light mb-3" style="max-width: 32rem;">
+                        <div class="card-header"><strong>Searching Tip 4</strong></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <label class="form-inline lead">What are the top &nbsp;<input
+                                        type="text" style="width: 80px;"
+                                        class="form-control" id="search4-1"
+                                        onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+                                        onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "/> &nbsp;methods on&nbsp;&nbsp;<input
+                                        type="text" style="width: 80px;"
+                                        class="form-control" id="search4-2"/>&nbsp;&nbsp;in terms of&nbsp;&nbsp;<input
+                                        type="text"
+                                        style="width: 80px;"
+                                        class="form-control" id="search4-3"/>&nbsp;&nbsp;?
+                                </label>
+                            </p>
+                            <button type="button" class="btn btn-primary float-right" onclick="search_4()">search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 
 <!-- Footer -->
 <footer class="footer text-center">
@@ -243,8 +469,244 @@
 <!-- Custom scripts for this template -->
 <script src="/static/js/stylish-portfolio.min.js"></script>
 
+<!--<script src="/static/js/index.js"></script>-->
 
 </body>
 
-</html>
+<script type="text/javascript">
+    function upload_file() {
+        var form = document.forms.namedItem("upload_form");
+        var fd = new FormData(form);
 
+        $.ajax({
+                url: "/upload",
+                type: "POST",
+                data: fd,
+                async: true,
+                cashe: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#loadingModal').modal({backdrop: 'static', keyboard: false});
+                },
+                success: function (table_data) {
+                    $('#loadingModal').modal('hide');
+                    if (table_data.table.length == 0) {
+                        alert("Sorry! We don't find any table in the paper!");
+                        return;
+                    }
+                    document.getElementsByTagName('body')[0].classList.add("modal-open");
+                    $("#tableModal").modal("show");
+                    for (i in table_data.table) {
+                        var tr;
+                        tr = "<tr>"
+                        for (j in table_data.table[i]) {
+                            tr = tr + '<td>' + table_data.table[i][j] + '</td>'
+                        }
+                        tr = tr + "</tr>"
+                        $("#pdf_table").append(tr)
+                    }
+                    var parent = document.getElementById("pdf_table");
+                    var div = document.createElement("div");
+                    div.setAttribute("id", "table_id");
+                    div.setAttribute("hidden", "")
+                    div.innerHTML = table_data.id;
+                    parent.appendChild(div);
+
+                },
+                error: function (table_data) {
+                    $('#loadingModal').modal('hide');
+                    alert("Fail to Upload!");
+                },
+                complete: function () {
+                    $('#loadingModal').modal('hide');
+                }
+
+            }
+        )
+    }
+
+    function correct_pdf_table() {
+        var id = document.getElementById("table_id").innerText;
+        window.location.href = "/db_table?id=" + id;
+    }
+
+    function incorrect_pdf_table() {
+        window.location.href = "/index?state=1";
+    }
+
+    function submit_remark() {
+        $.ajax({
+            url: "/remark",
+            type: "POST",
+            data: $('#remark_form').serialize(),
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                $('#remarkModal').modal({
+                    backdrop: true,
+                    keyboard: true,
+                    show: true
+                });
+                setTimeout(function () {
+                    $("#remarkModal").modal("hide")
+                }, 3000);
+            }
+        })
+    }
+
+    function search_1() {
+        var value = document.getElementById("search1").value;
+        $.ajax({
+            url: "/search1?text=" + value,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.methods.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.methods.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+                    for (i in table_data.methods) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.methods[i] + '</td></tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Methods";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+
+    function search_2() {
+        var value = document.getElementById("search2").value;
+        $.ajax({
+            url: "/search2?text=" + value,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.metrics.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.metrics.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+
+                    for (i in table_data.metrics) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.metrics[i] + '</td></tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Metrics";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+
+    function search_3() {
+        var value = document.getElementById("search3").value;
+        $.ajax({
+            url: "/search3?text=" + value,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.datasets.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.datasets.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+                    for (i in table_data.datasets) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.datasets[i] + '</td></tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Datasets";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+
+    function search_4() {
+        var value1 = document.getElementById("search4-1").value;
+        var value2 = document.getElementById("search4-2").value;
+        var value3 = document.getElementById("search4-3").value;
+        $.ajax({
+            url: "/search4?text1=" + value1 + "&text2=" + value2 + "&text3=" + value3,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.method_score.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.method_score.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+                    for (i in table_data.method_score) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.method_score[i][0] + '</td><td class="text-center">' + table_data.method_score[i][1] + '</tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Method";
+                    parent.appendChild(div);
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Score";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+</script>
+
+{% if state > 0 %}
+<script>
+    $(document).ready(function () {
+        $('#tipModal').modal({
+            backdrop: true,
+            keyboard: true,
+            show: true
+        });
+        setTimeout(function () {
+            $("#tipModal").modal("hide")
+        }, 3000);
+    });
+</script>
+{% endif %}
+
+
+</html>
