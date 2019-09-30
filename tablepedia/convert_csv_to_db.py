@@ -131,8 +131,7 @@ def get_db_list(fileName, df, firstRow, firstCol, singleDict):
     for i in range(firstRow, df.shape[0]):
         for j in range(firstCol, df.shape[1]):
             cellDict = get_cell_list(df, firstRow, firstCol, i, j, singleDict)
-            db_list.append([cellDict[1], cellDict[2], cellDict[3], df.iloc[i, j], fileName])
-            # print(cellDict)
+            db_list.append([cellDict[1].strip(), cellDict[2].strip(), cellDict[3].strip(), df.iloc[i, j].strip(), fileName.strip()])
     return db_list
 
 
