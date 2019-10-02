@@ -83,7 +83,12 @@ def remark():
                     db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""),
                                             row[3].replace(" ", ""), filename))
                     db.session.commit()
-        db.session.add(Evaluation(comment, remark, filename))
+        basepath = os.path.dirname(__file__)
+        upload_path = basepath + app.config["UPLOAD_FOLDER"]
+
+        upload_path = os.path.join(upload_path, filename)
+        print(upload_path)
+        db.session.add(Feedback(filename, upload_path + ".pdf", True, "", comment, remark))
         db.session.commit()
         result["result"] = "1"
         return jsonify(result)
@@ -97,6 +102,10 @@ def get_db_table():
     remarkform = RemarkForm()
     fileform = FileForm()
     id = request.args.get("id")
+
+    if id is None or id == "":
+        return render_template('index.html', state=0, db_table=None, fileform=fileform)
+
     csv_path = id + ".csv"
     table = pd.read_csv(csv_path, encoding='utf-8',
                         header=-1)
@@ -105,10 +114,8 @@ def get_db_table():
     db_table = convert_csv_to_db.with_db(csv_path, txt_path)
     for row_id in db_table.index:
         row = db_table.loc[row_id].values
-        row[4] = row[4][:-41] #remove uuid code
-        # db.drop_all()
-        # db.create_all()
-        # db.session.commit()
+        row[4] = row[4][:-41]  # remove uuid code
+
         # db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""), row[4].replace(" ", "")))
         # db.session.commit()
         # print(row)
@@ -117,6 +124,34 @@ def get_db_table():
         #
     # print(db_table)
     return render_template('index.html', state=2, db_table=db_table, remarkform=remarkform, id=id, fileform=fileform)
+
+
+@app.route('/wrong_table', methods=['GET'])
+def get_feedback():
+    id = request.args.get("id")
+    fileform = FileForm()
+
+    return render_template('index.html', state=1, db_table=None, fileform=fileform, id=id)
+
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    # id = request.args.get("id")
+    fileform = FileForm()
+    if request.method == "POST":
+        reason = request.values.get("customRadio")
+        print(reason)
+        id = request.values.get("filepath")
+        print(id)
+        filename = id.split("/")[-1][:-37]
+        print(filename)
+        path = id + ".pdf"
+        db.drop_all()
+        db.create_all()
+        db.session.commit()
+        db.session.add(Feedback(filename, path, False, reason, "", -1))
+        db.session.commit()
+    return render_template('index.html', state=0, db_table=None, fileform=fileform)
 
 
 @app.route('/search1', methods=['GET'])

@@ -20,15 +20,35 @@ class Tableuni(db.Model):
         self.filename = filename
 
 
-class Evaluation(db.Model):
-    __tablename__ = "Evaluation"
+# class Evaluation(db.Model):
+#     __tablename__ = "Evaluation"
+#
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     comment = db.Column(db.String(128))
+#     remark = db.Column(db.INT)
+#     filename = db.Column(db.String(64))
+#
+#     def __init__(self, comment, remark, filename):
+#         self.comment = comment
+#         self.remark = remark
+#         self.filename = filename
+
+
+class Feedback(db.Model):
+    __tablename__ = "Feedback"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    filename = db.Column(db.String(64))
+    path = db.Column(db.String(128))
+    correctness = db.Column(db.Boolean)
+    reason = db.Column(db.String(64))
     comment = db.Column(db.String(128))
     remark = db.Column(db.INT)
-    filename = db.Column(db.String(64))
 
-    def __init__(self, comment, remark, filename):
+    def __init__(self, filename, path, correctness, reason, comment, remark):
+        self.path = path
+        self.correctness = correctness
+        self.reason = reason
         self.comment = comment
         self.remark = remark
         self.filename = filename

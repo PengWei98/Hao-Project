@@ -161,7 +161,7 @@
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
                 {% if state == 1 %}
-                <h3 class="modal-title">Sorry, we will try to do better!</h3>
+                <h3 class="modal-title">Sorry, please tell us why this is not your table</h3>
                 {% endif %}
                 {% if state == 2 %}
                 <h3 class="modal-title">Thank you for your contribution!</h3>
@@ -169,16 +169,113 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
+
+            {% if state == 1 %}
+            <!--<form action="feedback" method='POST' id="feedback_form">-->
+            <!--<div class="row">-->
+            <!--<div class="col-md-1"></div>-->
+            <!--<div class="col-md-8">-->
+
+            <!--<div class="form-group">-->
+            <!--<div class="custom-control custom-radio">-->
+            <!--<input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"-->
+            <!--checked="">-->
+            <!--<label class="custom-control-label lead" for="customRadio1">Incorrect Table</label>-->
+            <!--</div>-->
+            <!--<div class="custom-control custom-radio">-->
+            <!--<input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">-->
+            <!--<label class="custom-control-label lead" for="customRadio2">Misplaced Contents</label>-->
+            <!--</div>-->
+            <!--<div class="custom-control custom-radio">-->
+            <!--<input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">-->
+            <!--<label class="custom-control-label lead" for="customRadio3">Contents Loss</label>-->
+            <!--</div>-->
+            <!--<div class="custom-control custom-radio">-->
+            <!--<input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">-->
+            <!--<label class="custom-control-label lead" for="customRadio4">Extra Contents</label>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<input type="hidden" name="filepath" id="filepath" value={{ id }}>-->
+            <!--<input type="submit" class="btn btn-primary">-->
+            <!--</form>-->
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8">
+                    <form action="feedback" method='POST' id="feedback_form" name="feedback_form">
+                        <!--<fieldset>-->
+                        <!--<fieldset class="form-group">-->
+
+                        <!--<div class="form-check">-->
+                        <!--<label class="form-check-label">-->
+                        <!--<input type="radio" class="form-check-input lead" name="optionsRadios"-->
+                        <!--id="optionsRadios1"-->
+                        <!--value="option1" checked="">-->
+                        <!--Incorrect Table-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--<div class="form-check">-->
+                        <!--<label class="form-check-label">-->
+                        <!--<input type="radio" class="form-check-input" name="optionsRadios"-->
+                        <!--id="optionsRadios2"-->
+                        <!--value="option2">-->
+                        <!--Option two can be something else and selecting it will deselect option one-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</fieldset>-->
+                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                        <!--</fieldset>-->
+
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
+                                       checked="" value="1">
+                                <label class="custom-control-label lead" for="customRadio1" value="1">Incorrect
+                                    Table</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
+                                       value="2">
+                                <label class="custom-control-label lead" for="customRadio2" value="2">Misplaced
+                                    Contents</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input"
+                                       value="3">
+                                <label class="custom-control-label lead" for="customRadio3" value="3">Contents
+                                    Loss</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input"
+                                       value="4">
+                                <label class="custom-control-label lead" for="customRadio4" value="4">Extra
+                                    Contents</label>
+                            </div>
+                        </div>
+                        <input type="hidden" name="filepath" id="filepath" value={{ id }}>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
             {% if state == 2 %}
             <div class="modal-body">
                 Now slide down and you can see your table!
             </div>
             {% endif %}
+
             <div class="modal-footer">
+                {% if state == 2 %}
                 <button type="button" class="btn btn-primary" data-dismiss="modal">
                     OK
                 </button>
+                {% endif %}
             </div>
+
         </div>
     </div>
 </div>
@@ -532,13 +629,39 @@
     }
 
     function incorrect_pdf_table() {
-        window.location.href = "/index?state=1";
+        // window.location.href = "/index?state=1";
+        var id = document.getElementById("table_id").innerText;
+        window.location.href = "/wrong_table?id=" + id;
     }
 
     function submit_remark() {
         $.ajax({
             url: "/remark",
             type: "POST",
+            data: $('#remark_form').serialize(),
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                $('#remarkModal').modal({
+                    backdrop: true,
+                    keyboard: true,
+                    show: true
+                });
+                setTimeout(function () {
+                    $("#remarkModal").modal("hide")
+                }, 3000);
+            }
+        })
+    }
+
+    function submit_feedback() {
+        var value = document.getElementById("").value;
+        var value = document.getElementById("search1").value;
+        $.ajax({
+            url: "/feedback",
+            type: "GET",
             data: $('#remark_form').serialize(),
             async: false,
             error: function (request) {
@@ -693,7 +816,20 @@
     }
 </script>
 
-{% if state > 0 %}
+{% if state == 1 %}
+<script>
+    $(document).ready(function () {
+        $('#tipModal').modal({
+            backdrop: true,
+            keyboard: true,
+            show: true
+        });
+    });
+</script>
+{% endif %}
+
+
+{% if state == 2 %}
 <script>
     $(document).ready(function () {
         $('#tipModal').modal({
@@ -707,6 +843,5 @@
     });
 </script>
 {% endif %}
-
 
 </html>
