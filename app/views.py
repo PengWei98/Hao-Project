@@ -234,6 +234,22 @@ def search4():
     print(json)
     return jsonify(json)
 
+# dump
+@app.route('/dump', methods=['GET'])
+def dump():
+    basepath = os.path.dirname(__file__)
+    fileform = FileForm()
+    # upload_path = basepath + app.config["UPLOAD_FOLDER"]
+    f = open(basepath + '/tablepedia_db.txt', 'r')
+    lines = [line.strip('\n').split('\t') for line in f]
+    for row in lines:
+        filename = row[0][:-4]
+        print(filename)
+        db.session.add(Tableuni(row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""),
+                                row[4].replace(" ", ""), filename))
+        db.session.commit()
+    # print(lines)
+    return render_template('index.html', state=0, db_table=None, fileform=fileform)
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/index', methods=['GET', "POST"])

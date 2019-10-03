@@ -42,16 +42,8 @@
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#upload">Upload</a>
         </li>
-        {% if show %}
         <li class="sidebar-nav-item">
-            <a class="js-scroll-trigger" href="#table">Table</a>
-        </li>
-        {% endif %}
-        <li class="sidebar-nav-item">
-            <a class="js-scroll-trigger" href="#services">Services</a>
-        </li>
-        <li class="sidebar-nav-item">
-            <a class="js-scroll-trigger" href="#portfolio">Portfolio</a>
+            <a class="js-scroll-trigger" href="#search">Search</a>
         </li>
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#contact">Contact</a>
@@ -161,7 +153,7 @@
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
                 {% if state == 1 %}
-                <h3 class="modal-title">Sorry, please tell us why this is not your table</h3>
+                <h3 class="modal-title">Sorry, please tell us why this is not your table:</h3>
                 {% endif %}
                 {% if state == 2 %}
                 <h3 class="modal-title">Thank you for your contribution!</h3>
@@ -266,16 +258,14 @@
             <div class="modal-body">
                 Now slide down and you can see your table!
             </div>
-            {% endif %}
 
             <div class="modal-footer">
-                {% if state == 2 %}
                 <button type="button" class="btn btn-primary" data-dismiss="modal">
                     OK
                 </button>
-                {% endif %}
-            </div>
 
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -528,7 +518,7 @@
 
 
 <!-- Footer -->
-<footer class="footer text-center">
+<footer class="footer text-center" id="contact">
     <div class="container">
         <ul class="list-inline mb-5">
             <li class="list-inline-item">
