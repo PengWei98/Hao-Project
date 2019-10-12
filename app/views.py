@@ -103,8 +103,11 @@ def get_db_table():
     fileform = FileForm()
     id = request.args.get("id")
 
+    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    remark_num = len(good_remarks)
     if id is None or id == "":
-        return render_template('index.html', state=0, db_table=None, fileform=fileform)
+        return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+                               remark_num=remark_num)
 
     csv_path = id + ".csv"
     table = pd.read_csv(csv_path, encoding='utf-8',
@@ -123,15 +126,20 @@ def get_db_table():
         # break
         #
     # print(db_table)
-    return render_template('index.html', state=2, db_table=db_table, remarkform=remarkform, id=id, fileform=fileform)
+
+    return render_template('index.html', state=2, db_table=db_table, remarkform=remarkform, id=id, fileform=fileform,
+                           good_remarks=good_remarks,
+                           remark_num=remark_num)
 
 
 @app.route('/wrong_table', methods=['GET'])
 def get_feedback():
     id = request.args.get("id")
     fileform = FileForm()
-
-    return render_template('index.html', state=1, db_table=None, fileform=fileform, id=id)
+    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    remark_num = len(good_remarks)
+    return render_template('index.html', state=1, db_table=None, fileform=fileform, id=id, good_remarks=good_remarks,
+                           remark_num=remark_num)
 
 
 @app.route('/feedback', methods=['POST'])
@@ -146,12 +154,15 @@ def feedback():
         filename = id.split("/")[-1][:-37]
         print(filename)
         path = id + ".pdf"
-        db.drop_all()
-        db.create_all()
-        db.session.commit()
+        # db.drop_all()
+        # db.create_all()
+        # db.session.commit()
         db.session.add(Feedback(filename, path, False, reason, "", -1))
         db.session.commit()
-    return render_template('index.html', state=0, db_table=None, fileform=fileform)
+        good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+        remark_num = len(good_remarks)
+    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+                           remark_num=remark_num)
 
 
 @app.route('/search1', methods=['GET'])
@@ -234,6 +245,7 @@ def search4():
     print(json)
     return jsonify(json)
 
+
 # dump
 @app.route('/dump', methods=['GET'])
 def dump():
@@ -249,13 +261,23 @@ def dump():
                                 row[4].replace(" ", ""), filename))
         db.session.commit()
     # print(lines)
-    return render_template('index.html', state=0, db_table=None, fileform=fileform)
+    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    remark_num = len(good_remarks)
+    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+                           remark_num=remark_num)
+
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/index', methods=['GET', "POST"])
 def index():
     fileform = FileForm()
     state = request.args.get("state")
+
+    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    remark_num = len(good_remarks)
+
     if state is not None:
-        return render_template('index.html', state=1, db_table=None, fileform=fileform)
-    return render_template('index.html', state=0, db_table=None, fileform=fileform)
+        return render_template('index.html', state=1, db_table=None, fileform=fileform, good_remarks=good_remarks,
+                               remark_num=remark_num)
+    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+                           remark_num=remark_num)
