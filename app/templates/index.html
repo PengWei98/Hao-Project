@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tablepedia - Automating PDF Table Reading</title>
+    <title>TableUni - Automating PDF Table Reading</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,10 +40,16 @@
             <a class="js-scroll-trigger" href="#page-top">Home</a>
         </li>
         <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="#introduction">Introduction</a>
+        </li>
+        <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#upload">Upload</a>
         </li>
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#search">Search</a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="#evaluation">Evaluation</a>
         </li>
         <li class="sidebar-nav-item">
             <a class="js-scroll-trigger" href="#contact">Contact</a>
@@ -54,7 +60,7 @@
 <!-- Header -->
 <header class="masthead d-flex">
     <div class="container text-center my-auto">
-        <h1 class="mb-1">Tablepedia</h1>
+        <h1 class="mb-1">TableUni</h1>
         <br/>
         <br/>
         <h3 class="mb-1 lead">
@@ -69,19 +75,58 @@
             <div class="col-md-2"></div>
             <div class="col-md-4">
                 <a class="btn btn-primary btn-xl js-scroll-trigger" href="#upload">Upload your own PDF</a>
-                <!--<button type="button" class="btn btn-primary btn-lg js-scroll-trigger" href="#upload">Upload your own PDF</button>-->
             </div>
             <div class="col-md-4">
                 <a class="btn btn-primary btn-xl js-scroll-trigger" href="#search">Using existing database</a>
-                <!--<button type="button" class="btn btn-primary btn-lg">Using existing database</button>-->
             </div>
         </div>
     </div>
     <div class="overlay"></div>
 </header>
 
+<!--<section class="content-section bg-light" id="introduction">-->
+<!--<div class="container">-->
+<!--&lt;!&ndash;<div class="col-lg-11 mx-auto">&ndash;&gt;-->
+<!--<h3 class="text-center text-dark">Introduction</h3>-->
+<!--&lt;!&ndash;<p class="lead mb-5 text-center">Here are some templates for searching</p>&ndash;&gt;-->
+<!--<p class="lead text-dark" style="font-size: 18px;">-->
+<!--Web research, data science, and artificial intelligence have been rapidly changing our life and society. Researchers and practitioners in the fields take a large amount of time to read literature and compare existing approaches. Tablepedia aims to improve researchers efficiency by automatically reading PDF tables and managing experimental evidences. Tablepedia offers three functions to facilitate research and practice: (1) finding related methods and datasets, (2) finding top-performing baseline methods, and (3) finding conflicting reported numbers. Besides, user could upload their own PDFs to enrich the existing database and use it.-->
+<!--</p>-->
 
-<section class="content-section bg-light" id="upload">
+
+<!--</div>-->
+<!--</div>-->
+<!--</section>-->
+
+<section id="introduction" class="content-section bg-light">
+    <div class="d-flex h-100 align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <header class="text-center">
+                        <h3>Introduction</h3>
+                    </header>
+                    <p class="lead">This can be an about section or anything else ;)</p>
+                    <br/>
+                    <br/>
+                    <p class="lead" style="font-size: 18px;">Web research, data science, and artificial intelligence
+                        have been rapidly changing our life and society. Researchers and practitioners in the fields
+                        take a large amount of time to read literature and compare existing approaches. Tablepedia aims
+                        to improve researchers efficiency by automatically reading PDF tables and managing experimental
+                        evidences. Tablepedia offers three functions to facilitate research and practice:</p>
+                    <p class="lead" style="font-size: 18px;">(1) finding related methods and datasets</p>
+                    <p class="lead" style="font-size: 18px;">(2) finding top-performing baseline methods</p>
+                    <p class="lead" style="font-size: 18px;">(3) finding conflicting reported numbers. Besides, user
+                        could upload their own PDFs to enrich the existing database and use it</p>
+                </div>
+                <div class="col-lg-6"><img src="/static/img/workflow.png"
+                                           class="img-fluid d-block mx-auto"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-section bg-gray" id="upload">
     <div class="container text-center">
         <div class="row">
             <div class="col-lg-10 mx-auto">
@@ -172,25 +217,29 @@
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
                                        checked="" value="1">
-                                <label class="custom-control-label lead" for="customRadio1" value="1" style="font-size: 18px;">Incorrect
+                                <label class="custom-control-label lead" for="customRadio1" value="1"
+                                       style="font-size: 18px;">Incorrect
                                     Table</label>
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
                                        value="2">
-                                <label class="custom-control-label lead" for="customRadio2" value="2" style="font-size: 18px;">Misplaced
+                                <label class="custom-control-label lead" for="customRadio2" value="2"
+                                       style="font-size: 18px;">Misplaced
                                     Contents</label>
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input"
                                        value="3">
-                                <label class="custom-control-label lead" for="customRadio3" value="3" style="font-size: 18px;">Contents
+                                <label class="custom-control-label lead" for="customRadio3" value="3"
+                                       style="font-size: 18px;">Contents
                                     Loss</label>
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input"
                                        value="4">
-                                <label class="custom-control-label lead" for="customRadio4" value="4" style="font-size: 18px;">Extra
+                                <label class="custom-control-label lead" for="customRadio4" value="4"
+                                       style="font-size: 18px;">Extra
                                     Contents</label>
                             </div>
                         </div>
@@ -300,21 +349,23 @@
 </div>
 
 {% if state == 2 %}
-<section class="content-section bg-primary text-white text-center" id="table">
+<section class="content-section bg-gray text-center" id="table">
     <div class="container">
-        <div class="content-section-heading">
-            <h3 class="text-secondary mb-0">Maybe</h3>
-            <h2 class="text-secondary mb-5"><span style="color: #ffffff;">This is your table?</span></h2>
-        </div>
+        <!--<h3 class="text-secondary mb-0">Maybe</h3>-->
+        <!--<h2 class="text-secondary mb-5"><span style="color: #000000;">This is your table?</span></h2>-->
+        <h3 class="text-center text-dark">Table based on our algorithm is shown below</h3>
+        <p class="lead mb-5 text-center text-dark">This table will be loaded to our database</p>
+        <br/>
+        <br/>
 
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th scope="col"><span style="color: #ffffff;">Dataset</span></th>
-                <th scope="col"><span style="color: #ffffff;">Method</span></th>
-                <th scope="col"><span style="color: #ffffff;">Metric</span></th>
-                <th scope="col"><span style="color: #ffffff;">Score</span></th>
-                <th scope="col"><span style="color: #ffffff;">FileName</span></th>
+                <th scope="col"><span style="color: #000000;">Dataset</span></th>
+                <th scope="col"><span style="color: #000000;">Method</span></th>
+                <th scope="col"><span style="color: #000000;">Metric</span></th>
+                <th scope="col"><span style="color: #000000;">Score</span></th>
+                <th scope="col"><span style="color: #000000;">FileName</span></th>
             </tr>
             </thead>
             <tbody>
@@ -322,7 +373,7 @@
             <tr>
                 <!--<th scope="row">Primary</th>-->
                 {% for item in db_table.loc[indexs].values %}
-                <td><span style="color: #ffffff;">{{item}}</span></td>
+                <td><span style="color: #000000;">{{item}}</span></td>
                 {% endfor %}
             </tr>
             {% endfor %}
@@ -332,57 +383,57 @@
     </div>
 </section>
 
-
-<section class="content-section bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center">Your evaluation will promote us to do better!</h2>
-        <br/>
-        <br/>
-        <form action="remark" method='POST' id="remark_form">
-            {{ remarkform.hidden_tag() }}
-            <div class="row main">
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label for="textarea" class="col-form-label lead">Please describe problems you meet when using
-                            our system. Thank you for helping us improve!</label>
-                        <textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="select" class="col-form-label lead">Please choose your remark for our table.</label>
-                        <select class="form-control" id="select" name="select">
-                            <option>5</option>
-                            <option>4</option>
-                            <option>3</option>
-                            <option>2</option>
-                            <option>1</option>
-                        </select>
-                        <input type="hidden" name="filename" id="filename" value={{ id }}>
-                        <br/>
-                        <br/>
-                        <div class="row">
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
-                                       onclick="submit_remark()">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-
 {% endif %}
 
+
+<!--<section class="content-section bg-light">-->
+<!--<div class="container">-->
+<!--<h2 class="mb-4 text-center">Your evaluation will promote us to do better!</h2>-->
+<!--<br/>-->
+<!--<br/>-->
+<!--<form action="remark" method='POST' id="remark_form">-->
+<!--{{ remarkform.hidden_tag() }}-->
+<!--<div class="row main">-->
+<!--<div class="col-md-8">-->
+<!--<div class="form-group">-->
+<!--<label for="textarea" class="col-form-label lead">Please describe problems you meet when using-->
+<!--our system. Thank you for helping us improve!</label>-->
+<!--<textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<div class="form-group">-->
+<!--<label for="select" class="col-form-label lead">Please choose your remark for our table.</label>-->
+<!--<select class="form-control" id="select" name="select">-->
+<!--<option>5</option>-->
+<!--<option>4</option>-->
+<!--<option>3</option>-->
+<!--<option>2</option>-->
+<!--<option>1</option>-->
+<!--</select>-->
+<!--<input type="hidden" name="filename" id="filename" value={{ id }}>-->
+<!--<br/>-->
+<!--<br/>-->
+<!--<div class="row">-->
+<!--<div class="col-md-4">-->
+<!--</div>-->
+<!--<div class="col-md-6">-->
+<!--<input type="button" class="btn btn-primary js-scroll-trigger" value="submit"-->
+<!--onclick="submit_remark()">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+<!--</section>-->
+
 <!-- Search -->
-<section class="content-section bg-primary" id="search">
+<section class="content-section bg-light" id="search">
     <div class="container">
         <!--<div class="col-lg-11 mx-auto">-->
-        <h3 class="text-center text-light">Now use our searching engine!</h3>
+        <h3 class="text-center text-dark">Now use our searching engine!</h3>
         <p class="lead mb-5 text-center">Here are some templates for searching</p>
         <br/>
         <br/>
@@ -391,7 +442,7 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <!--<div class="card border-light mb-5 center" style="max-width: 35rem;">-->
-                <div class="card border-light mb-5">
+                <div class="card border-dark mb-5">
                     <div class="card-header"><strong>Searching Tip 1</strong></div>
                     <div class="card-body">
                         <p class="card-text">
@@ -411,7 +462,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <div class="card border-light mb-5">
+                <div class="card border-dark mb-5">
                     <div class="card-header"><strong>Searching Tip 2</strong></div>
                     <div class="card-body">
                         <p class="card-text">
@@ -430,7 +481,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <div class="card border-light mb-5">
+                <div class="card border-dark mb-5">
                     <div class="card-header"><strong>Searching Tip 3</strong></div>
                     <div class="card-body">
                         <p class="card-text">
@@ -449,7 +500,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <div class="card border-light mb-5">
+                <div class="card border-dark mb-5">
                     <div class="card-header"><strong>Searching Tip 4</strong></div>
                     <div class="card-body">
                         <p class="card-text">
@@ -475,6 +526,55 @@
     </div>
 </section>
 
+
+<section class="content-section bg-gray" id="evaluation">
+    <div class="container">
+        <h2 class="mb-4 text-center">Your evaluation will promote us to do better!</h2>
+        <br/>
+        <br/>
+        <p class="lead text-center">Remark Standard:</p>
+        <p class="text-dark text-center lead" style="font-size: 16px;">Excellent: answers were correct and complete<br>Good:
+            answers were correct but
+            not complete<br>Fair: answers were given but some-times incorrect<br>Poor: no answer was returned</p>
+        <br/>
+        <br/>
+        <form action="remark" method='POST' id="remark_form">
+            {{ remarkform.hidden_tag() }}
+            <div class="row main">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="textarea" class="col-form-label lead">Please describe problems you meet when using
+                            our system. Thank you for helping us improve!</label>
+                        <textarea class="form-control" id="textarea" rows="4" name="textarea"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="select" class="col-form-label lead">Please choose your remark for our table.</label>
+                        <select class="form-control" id="select" name="select">
+                            <option value="4">Excellent (4)</option>
+                            <option value="3">Good (3)</option>
+                            <option value="2">Fair (2)</option>
+                            <option value="1">Poor (1)</option>
+                        </select>
+                        <input type="hidden" name="filename" id="filename" value="">
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="button" class="btn btn-primary js-scroll-trigger" value="submit"
+                                       onclick="submit_remark()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
 {% if remark_num > 0 %}
 <section class="content-section bg-light" id="comment">
     <div class="container">
@@ -495,7 +595,8 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">Anonymous User
-                        <small class="lead"><i>&nbsp;&nbsp;&nbsp;&nbsp;file : {{ remark.filename }}.pdf</i></small>
+                        <small class="lead"><i>&nbsp;&nbsp;&nbsp;&nbsp;Date : {{ remark.time.strftime('%Y-%m-%d
+                            %H:%M:%S') }}</i></small>
                     </h4>
                     <p>remark: {{ remark.remark }}<br>
                         <span style="font-size: 20px;">{{ remark.comment }}</span></p>
@@ -510,7 +611,7 @@
 {% endif %}
 
 <!-- Footer -->
-<footer class="footer text-center" id="contact">
+<footer class="footer text-center bg-gray" id="contact">
     <div class="container">
         <ul class="list-inline mb-5">
             <li class="list-inline-item">

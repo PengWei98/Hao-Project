@@ -17,5 +17,5 @@ class FileForm(FlaskForm):
 class RemarkForm(FlaskForm):
     textarea = StringField('textarea', validators=[DataRequired()])
     select = IntegerField('select', validators=[DataRequired()])
-    filename = StringField('filename', validators=[DataRequired()])
+    # filename = StringField('filename', validators=[DataRequired()])
 

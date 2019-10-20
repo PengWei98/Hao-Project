@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from app import db
+import datetime
 
 
 class Tableuni(db.Model):
@@ -20,18 +21,18 @@ class Tableuni(db.Model):
         self.filename = filename
 
 
-# class Evaluation(db.Model):
-#     __tablename__ = "Evaluation"
-#
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     comment = db.Column(db.String(128))
-#     remark = db.Column(db.INT)
-#     filename = db.Column(db.String(64))
-#
-#     def __init__(self, comment, remark, filename):
-#         self.comment = comment
-#         self.remark = remark
-#         self.filename = filename
+class Evaluation(db.Model):
+    __tablename__ = "Evaluation"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    comment = db.Column(db.String(128))
+    remark = db.Column(db.INT)
+    time = db.Column(db.DateTime, default=datetime.datetime.now())
+    time = db.Column(db.DateTime, default=datetime.datetime.now())
+
+    def __init__(self, comment, remark):
+        self.comment = comment
+        self.remark = remark
 
 
 class Feedback(db.Model):

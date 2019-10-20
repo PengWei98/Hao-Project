@@ -68,31 +68,34 @@ def remark():
     form = RemarkForm()
     result = {}
     if form.validate_on_submit():
+        print("begin your remark!")
         comment = form.textarea.data
         remark = form.select.data
-        filename = form.filename.data
-        txt_path = filename + ".txt"
-        print(txt_path)
-        filename = filename.split("/")[-1][:-37]
-        print(filename)
-        with open(txt_path, "r") as fr:
-            for line in fr:
-                row = line.split(",")
-                print(row)
-                if remark >= 3:
-                    db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""),
-                                            row[3].replace(" ", ""), filename))
-                    db.session.commit()
-        basepath = os.path.dirname(__file__)
-        upload_path = basepath + app.config["UPLOAD_FOLDER"]
+        # filename = form.filename.data
+        # txt_path = filename + ".txt"
+        # print(txt_path)
+        # filename = filename.split("/")[-1][:-37]
+        # print(filename)
+        # with open(txt_path, "r") as fr:
+        #     for line in fr:
+        #         row = line.split(",")
+        #         print(row)
+        #         if remark >= 3:
+        #             db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""),
+        #                                     row[3].replace(" ", ""), filename))
+        #             db.session.commit()
+        # basepath = os.path.dirname(__file__)
+        # upload_path = basepath + app.config["UPLOAD_FOLDER"]
 
-        upload_path = os.path.join(upload_path, filename)
-        print(upload_path)
-        db.session.add(Feedback(filename, upload_path + ".pdf", True, "", comment, remark))
+        # upload_path = os.path.join(upload_path, filename)
+        # print(upload_path)
+        # db.session.add(Feedback(filename, upload_path + ".pdf", True, "", comment, remark))
+        db.session.add(Evaluation(comment, remark))
         db.session.commit()
         result["result"] = "1"
         return jsonify(result)
     else:
+        print("oh sorry!")
         result["result"] = "0"
         return jsonify(result)
 
@@ -106,7 +109,7 @@ def get_db_table():
     good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
     remark_num = len(good_remarks)
     if id is None or id == "":
-        return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+        return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
                                remark_num=remark_num)
 
     csv_path = id + ".csv"
@@ -119,8 +122,8 @@ def get_db_table():
         row = db_table.loc[row_id].values
         row[4] = row[4][:-41]  # remove uuid code
 
-        # db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""), row[4].replace(" ", "")))
-        # db.session.commit()
+        db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""), row[4].replace(" ", "")))
+        db.session.commit()
         # print(row)
         # test
         # break
@@ -136,9 +139,10 @@ def get_db_table():
 def get_feedback():
     id = request.args.get("id")
     fileform = FileForm()
+    remarkform = RemarkForm()
     good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
     remark_num = len(good_remarks)
-    return render_template('index.html', state=1, db_table=None, fileform=fileform, id=id, good_remarks=good_remarks,
+    return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform, id=id, good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
@@ -146,6 +150,7 @@ def get_feedback():
 def feedback():
     # id = request.args.get("id")
     fileform = FileForm()
+    remarkform = RemarkForm()
     if request.method == "POST":
         reason = request.values.get("customRadio")
         print(reason)
@@ -161,7 +166,7 @@ def feedback():
         db.session.commit()
         good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
         remark_num = len(good_remarks)
-    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
@@ -251,6 +256,7 @@ def search4():
 def dump():
     basepath = os.path.dirname(__file__)
     fileform = FileForm()
+    remarkform = RemarkForm()
     # upload_path = basepath + app.config["UPLOAD_FOLDER"]
     f = open(basepath + '/tablepedia_db.txt', 'r')
     lines = [line.strip('\n').split('\t') for line in f]
@@ -263,21 +269,28 @@ def dump():
     # print(lines)
     good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
     remark_num = len(good_remarks)
-    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/index', methods=['GET', "POST"])
 def index():
+    # db.drop_all()
+    # db.create_all()
+    # db.session.commit()
     fileform = FileForm()
+    remarkform = RemarkForm()
     state = request.args.get("state")
 
-    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
     remark_num = len(good_remarks)
 
+    good_remarks.sort(key=lambda x:x.time, reverse=True)
+    print(good_remarks)
+
     if state is not None:
-        return render_template('index.html', state=1, db_table=None, fileform=fileform, good_remarks=good_remarks,
+        return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
                                remark_num=remark_num)
-    return render_template('index.html', state=0, db_table=None, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
                            remark_num=remark_num)
