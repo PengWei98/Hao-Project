@@ -106,10 +106,11 @@ def get_db_table():
     fileform = FileForm()
     id = request.args.get("id")
 
-    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
     remark_num = len(good_remarks)
     if id is None or id == "":
-        return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
+        return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform,
+                               good_remarks=good_remarks,
                                remark_num=remark_num)
 
     csv_path = id + ".csv"
@@ -122,7 +123,9 @@ def get_db_table():
         row = db_table.loc[row_id].values
         row[4] = row[4][:-41]  # remove uuid code
 
-        db.session.add(Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""), row[4].replace(" ", "")))
+        db.session.add(
+            Tableuni(row[0].replace(" ", ""), row[1].replace(" ", ""), row[2].replace(" ", ""), row[3].replace(" ", ""),
+                     row[4].replace(" ", "")))
         db.session.commit()
         # print(row)
         # test
@@ -140,9 +143,10 @@ def get_feedback():
     id = request.args.get("id")
     fileform = FileForm()
     remarkform = RemarkForm()
-    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
     remark_num = len(good_remarks)
-    return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform, id=id, good_remarks=good_remarks,
+    return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform, id=id,
+                           good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
@@ -164,9 +168,10 @@ def feedback():
         # db.session.commit()
         db.session.add(Feedback(filename, path, False, reason, "", -1))
         db.session.commit()
-        good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+        good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
         remark_num = len(good_remarks)
-    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform,
+                           good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
@@ -208,6 +213,39 @@ def search2():
 @app.route('/search3', methods=['GET'])
 def search3():
     text = request.args.get("text")
+    print("search 3 text:")
+    print(text)
+    datasets = set()
+    results = Tableuni.query.filter_by(method=text).all()
+    print(results)
+    for result in results:
+        if result.dataset.replace(" ", "") != "":
+            datasets.add(result.dataset)
+    print(datasets)
+    json = {}
+    json["datasets"] = list(datasets)
+    print(json)
+    return jsonify(json)
+
+@app.route('/search4', methods=['GET'])
+def search4():
+    text = request.args.get("text")
+    print("search4 text:")
+    print(text)
+    metrics = set()
+    results = Tableuni.query.filter_by(method=text).all()
+    for result in results:
+        if result.metric.replace(" ", "") != "":
+            metrics.add(result.metric)
+    print(metrics)
+    json = {}
+    json["metrics"] = list(metrics)
+    print(json)
+    return jsonify(json)
+
+@app.route('/search5', methods=['GET'])
+def search5():
+    text = request.args.get("text")
     print("text:")
     print(text)
     sources = set()
@@ -232,8 +270,8 @@ def search3():
     return jsonify(json)
 
 
-@app.route('/search4', methods=['GET'])
-def search4():
+@app.route('/search6', methods=['GET'])
+def search6():
     text1 = request.args.get("text1")
     text2 = request.args.get("text2")
     text3 = request.args.get("text3")
@@ -267,9 +305,10 @@ def dump():
                                 row[4].replace(" ", ""), filename))
         db.session.commit()
     # print(lines)
-    good_remarks = Feedback.query.filter(Feedback.remark >= 3).all()
+    good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
     remark_num = len(good_remarks)
-    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform,
+                           good_remarks=good_remarks,
                            remark_num=remark_num)
 
 
@@ -286,11 +325,13 @@ def index():
     good_remarks = Evaluation.query.filter(Evaluation.remark >= 3).all()
     remark_num = len(good_remarks)
 
-    good_remarks.sort(key=lambda x:x.time, reverse=True)
+    good_remarks.sort(key=lambda x: x.time, reverse=True)
     print(good_remarks)
 
     if state is not None:
-        return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
+        return render_template('index.html', state=1, db_table=None, remarkform=remarkform, fileform=fileform,
+                               good_remarks=good_remarks,
                                remark_num=remark_num)
-    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform, good_remarks=good_remarks,
+    return render_template('index.html', state=0, db_table=None, remarkform=remarkform, fileform=fileform,
+                           good_remarks=good_remarks,
                            remark_num=remark_num)

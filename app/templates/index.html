@@ -468,7 +468,7 @@
                         <p class="card-text">
                             <label class="form-inline lead">How many metrics were used to evaluate
                                 on&nbsp;&nbsp;<input type="text" style="width: 80px;"
-                                                     class="form-control" id="search2"/>&nbsp;&nbsp;?
+                                                     class="form-control" id="search2"/>&nbsp;&nbsp;dataset?
                             </label>
                         </p>
                         <button type="button" class="btn btn-primary float-right" onclick="search_2()">search
@@ -485,9 +485,10 @@
                     <div class="card-header"><strong>Searching Tip 3</strong></div>
                     <div class="card-body">
                         <p class="card-text">
-                            <label class="form-inline lead">How many datasets used with&nbsp;&nbsp;<input
-                                    type="text" style="width: 80px;"
-                                    class="form-control" id="search3"/>&nbsp;&nbsp;in the same table?
+                            <label class="form-inline lead">How many datasets were used on&nbsp;&nbsp;<input type="text"
+                                                                                                             style="width: 80px;"
+                                                                                                             class="form-control"
+                                                                                                             id="search3"/>&nbsp;&nbsp;method?
                             </label>
                         </p>
                         <button type="button" class="btn btn-primary float-right" onclick="search_3()">search
@@ -496,7 +497,7 @@
                 </div>
             </div>
         </div>
-        <!--<div class="col-lg-2"></div>-->
+
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
@@ -504,19 +505,58 @@
                     <div class="card-header"><strong>Searching Tip 4</strong></div>
                     <div class="card-body">
                         <p class="card-text">
-                            <label class="form-inline lead">What are the top &nbsp;<input
-                                    type="text" style="width: 80px;"
-                                    class="form-control" id="search4-1"
-                                    onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
-                                    onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "/> &nbsp;methods on&nbsp;&nbsp;<input
-                                    type="text" style="width: 80px;"
-                                    class="form-control" id="search4-2"/>&nbsp;&nbsp;in terms of&nbsp;&nbsp;<input
-                                    type="text"
-                                    style="width: 80px;"
-                                    class="form-control" id="search4-3"/>&nbsp;&nbsp;?
+                            <label class="form-inline lead">How many metrics were used on&nbsp;&nbsp;<input type="text"
+                                                                                                            style="width: 80px;"
+                                                                                                            class="form-control"
+                                                                                                            id="search4"/>&nbsp;&nbsp;method?
                             </label>
                         </p>
                         <button type="button" class="btn btn-primary float-right" onclick="search_4()">search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="card border-dark mb-5">
+                    <div class="card-header"><strong>Searching Tip 5</strong></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <label class="form-inline lead">How many datasets used with&nbsp;&nbsp;<input
+                                    type="text" style="width: 80px;"
+                                    class="form-control" id="search5"/>&nbsp;&nbsp;in the same table?
+                            </label>
+                        </p>
+                        <button type="button" class="btn btn-primary float-right" onclick="search_5()">search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="card border-dark mb-5">
+                    <div class="card-header"><strong>Searching Tip 6</strong></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <label class="form-inline lead">What are the top &nbsp;<input
+                                    type="text" style="width: 80px;"
+                                    class="form-control" id="search6-1"
+                                    onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+                                    onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "/> &nbsp;methods on&nbsp;&nbsp;<input
+                                    type="text" style="width: 80px;"
+                                    class="form-control" id="search6-2"/>&nbsp;&nbsp;dataset in terms
+                                of&nbsp;&nbsp;<input
+                                        type="text"
+                                        style="width: 80px;"
+                                        class="form-control" id="search6-3"/>&nbsp;&nbsp;metric?
+                            </label>
+                        </p>
+                        <button type="button" class="btn btn-primary float-right" onclick="search_6()">search
                         </button>
                     </div>
                 </div>
@@ -846,6 +886,7 @@
                     $("#searching_tr").empty();
                     $("#searching_tbody").empty();
                     var tr = '';
+
                     for (i in table_data.datasets) {
                         tr = tr + '<tr><td class="text-center">' + table_data.datasets[i] + '</td></tr>';
                     }
@@ -861,11 +902,76 @@
     }
 
     function search_4() {
-        var value1 = document.getElementById("search4-1").value;
-        var value2 = document.getElementById("search4-2").value;
-        var value3 = document.getElementById("search4-3").value;
+        var value = document.getElementById("search4").value;
         $.ajax({
-            url: "/search4?text1=" + value1 + "&text2=" + value2 + "&text3=" + value3,
+            url: "/search4?text=" + value,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.metrics.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.metrics.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+
+                    for (i in table_data.metrics) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.metrics[i] + '</td></tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Metrics";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+
+    function search_5() {
+        var value = document.getElementById("search5").value;
+        $.ajax({
+            url: "/search5?text=" + value,
+            type: "GET",
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (table_data) {
+                if (table_data.datasets.length == 0) {
+                    $("#noResultModal").modal("show");
+                } else {
+                    $("#searchingModal").modal("show");
+                    document.getElementById("num_result").innerHTML = table_data.datasets.length + " results returned";
+                    $("#searching_tr").empty();
+                    $("#searching_tbody").empty();
+                    var tr = '';
+                    for (i in table_data.datasets) {
+                        tr = tr + '<tr><td class="text-center">' + table_data.datasets[i] + '</td></tr>';
+                    }
+                    $("#searching_table").append(tr);
+                    var parent = document.getElementById("searching_tr");
+                    var div = document.createElement("th");
+                    div.setAttribute("class", "text-center");
+                    div.innerHTML = "Datasets";
+                    parent.appendChild(div);
+                }
+            }
+        })
+    }
+
+    function search_6() {
+        var value1 = document.getElementById("search6-1").value;
+        var value2 = document.getElementById("search6-2").value;
+        var value3 = document.getElementById("search6-3").value;
+        $.ajax({
+            url: "/search6?text1=" + value1 + "&text2=" + value2 + "&text3=" + value3,
             type: "GET",
             async: false,
             error: function (request) {
